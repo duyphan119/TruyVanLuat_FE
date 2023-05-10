@@ -1,28 +1,34 @@
-class Helper {
-  formatDate(input: string | number | Date) {
-    const d = new Date(input);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const date = d.getDate();
+export const formatPrice = (price: number) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
 
-    return `${date < 10 ? "0" + date : date}/${
-      month < 10 ? "0" + month : month
-    }/${year}`;
+export const generateHrefId = (detail: string) => {
+  const split = detail.split(" ");
+  if (split[0] === "Điểm") {
+    return `diem_${split[5]}_${split[3]}_${split[1]}`;
   }
-  formatTime(input: string | number | Date) {
-    const d = new Date(input);
-    const hour = d.getHours();
-    const minute = d.getMinutes();
-    const second = d.getSeconds();
+  if (split[0] === "Khoản") {
+    return `khoan_${split[3]}_${split[1]}`;
+  }
+  if (split[0] === "Điều") {
+    return `dieu_${split[1]}`;
+  }
 
-    return `${hour < 10 ? "0" + hour : hour}:${
-      minute < 10 ? "0" + minute : minute
-    }:${second < 10 ? "0" + second : second}`;
-  }
-  formatDateTime(input: string | number | Date | null) {
-    if (!input) return "";
-    return `${this.formatDate(input)} ${this.formatTime(input)}`;
-  }
-}
+  return "";
+};
 
-export default new Helper();
+export const generateHref = (detail: string) => {
+  let result = "/xu-phat";
+  const split = detail.split(" NĐ ");
+
+  if (split[1]) {
+    result += `/${split[1]}`;
+  }
+
+  const id = generateHrefId(detail);
+  if (id) {
+    result += `#${id}`;
+  }
+
+  return result;
+};

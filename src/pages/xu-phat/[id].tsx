@@ -1,39 +1,18 @@
 import Container from "@/components/common/Container";
 import MainLayout from "@/components/layouts/MainLayout";
 import Head from "next/head";
-import { Fragment, useEffect } from "react";
-import { GetStaticPropsContext } from "next";
+import { Fragment } from "react";
+import { GetServerSidePropsContext } from "next";
 import API from "@/config/api";
 import Chapter from "@/types/chapter/Chapter";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
+import Dieu from "@/types/dieu/Dieu";
 
 type Props = {
-  chapters: Chapter[];
+  dieus: Dieu[];
   contentHtml: string;
 };
 
-const Page = ({ chapters, contentHtml }: Props) => {
-  // useEffect(() => {
-  //   const test = () => {
-  //     const [pathname, id] = window.location.href.split("#");
-  //     console.log(id);
-  //     if (id) {
-  //       const dom = document.getElementById(id);
-  //       if (dom) {
-  //         dom.style.backgroundColor = "yellow";
-  //       }
-  //     }
-  //   };
-  //   test();
-
-  //   window.addEventListener("hashchange", test);
-
-  //   return () => {
-  //     window.removeEventListener("hashchange", test);
-  //   };
-  // }, []);
-
+const Page = ({ dieus, contentHtml }: Props) => {
   return (
     <Fragment>
       <Head>
@@ -52,25 +31,25 @@ const Page = ({ chapters, contentHtml }: Props) => {
             <div className="left flex-[1] border border-gray-300 rounded-sm">
               <div className="p-2 bg-indigo-300">MỤC LỤC</div>
               <ul className="py-2 flex flex-col gap-2">
-                {chapters.map((chapter, index) => {
+                {dieus.map((dieu, index) => {
                   return (
                     <li className="px-2" key={index}>
                       <a
-                        href={`#${chapter.id}`}
+                        href={`#${dieu.id}`}
                         className="hover:text-indigo-500 font-semibold "
                       >
-                        {chapter.title}
+                        {dieu.title}
                       </a>
-                      {chapter.clauses.length > 0 ? (
+                      {dieu.khoans.length > 0 ? (
                         <ol className="mt-1 text-sm text-left">
-                          {chapter.clauses.map((clause, index) => {
+                          {dieu.khoans.map((khoan, index) => {
                             return (
                               <li className="py-2" key={index}>
                                 <a
-                                  href={`#${clause.id}`}
+                                  href={`#${khoan.id}`}
                                   className="hover:text-indigo-500 text-justify"
                                 >
-                                  {clause.title}
+                                  {khoan.title}
                                 </a>
                               </li>
                             );
@@ -95,22 +74,27 @@ const Page = ({ chapters, contentHtml }: Props) => {
   );
 };
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const api = new API();
-  let chapters = [];
+  const { id } = context.query;
+  let dieus = [];
   let contentHtml = "";
-  try {
-    const { chapters: data } = await api.get("menu-punishment");
-    const { html } = await api.get("punishment");
-    chapters = data;
-    contentHtml = html;
-  } catch (error) {
-    console.log("Error", error);
+  if (id) {
+    try {
+      const { dieus: data } = await api.get("punishments/menu/" + id);
+      const { html } = await api.get("punishments/" + id);
+      dieus = data;
+      contentHtml = html;
+    } catch (error) {
+      console.log("Error", error);
+    }
   }
 
   return {
     props: {
-      chapters,
+      dieus,
       contentHtml,
     },
   };

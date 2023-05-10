@@ -4,4 +4,5 @@ export const PUBLIC_ROUTES = {
   PUNISHMENTS: "/xu-phat",
   OVERVIEW: "/gioi-thieu",
   CONTACT: "/lien-he",
+  VIOLATIONS: "/vi-pham",
 };
