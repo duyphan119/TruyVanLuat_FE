@@ -1,3 +1,5 @@
+import groupViolationApi from "@/api/groupViolation.api";
+import violationApi from "@/api/violation.api";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -9,7 +11,13 @@ import API from "@/config/api";
 import useComponentVisible from "@/hooks/useComponentVisible";
 import useQueryString from "@/hooks/useQueryString";
 import Infringe from "@/types/infringe/Infringe";
-import { PUBLIC_ROUTES } from "@/utils/constants";
+import PaginationResponse from "@/types/response/PaginationResponse";
+import Violation from "@/types/violation/Violation";
+import {
+  DEFAULT_LIMIT,
+  PAGINATION_RESPONSE_EMPTY,
+  PUBLIC_ROUTES,
+} from "@/utils/constants";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,7 +29,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 type Result = {
   rows: Infringe[];
   count: number;
-  total_page: number;
+  total_pages: number;
 };
 
 export default function Home() {
@@ -30,19 +38,12 @@ export default function Home() {
   const { getString } = useQueryString();
 
   const keywordQueryString = getString("keyword");
-  const applyForQueryString = getString("apply_for");
 
-  const [result, setResult] = useState<Result>({
-    rows: [],
-    count: 0,
-    total_page: 0,
-  });
-  const [current, setCurrent] = useState<Infringe | null>(null);
+  const [result, setResult] = useState<PaginationResponse<Violation>>(
+    PAGINATION_RESPONSE_EMPTY
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-
-  const { isComponentVisible, ref, setIsComponentVisible } =
-    useComponentVisible(false);
 
   const { register, handleSubmit, setValue } = useForm();
 
@@ -51,29 +52,31 @@ export default function Home() {
     router.push(`?keyword=${keyword}`);
   };
 
-  const fetchData = (str: string, p?: number, limit?: number) => {
-    const api = new API("http://localhost:5000");
-    return api
-      .get("search", {
-        keyword: str,
-        page: p || 1,
-        limit: limit || 20,
-      })
-      .then((data) => {
-        setResult(data);
-      })
-      .catch((error) => console.log(error));
+  const fetchSearchResult = (
+    str: string,
+    p?: number,
+    limit?: number,
+    isNext?: boolean
+  ) => {
+    return violationApi.search(str, p, limit).then((data) => {
+      setResult({
+        ...data,
+        ...(isNext ? { rows: [...result.rows, ...data.rows] } : {}),
+      });
+    });
   };
 
   useEffect(() => {
     if (keywordQueryString !== "") {
       setLoading(true);
-      fetchData(keywordQueryString, 1).finally(() => {
+      fetchSearchResult(keywordQueryString, 1, DEFAULT_LIMIT).finally(() => {
         setLoading(false);
       });
       setValue("keyword", keywordQueryString);
     }
   }, [keywordQueryString]);
+
+  console.log(result.rows.length);
 
   return (
     <Fragment>
@@ -110,11 +113,16 @@ export default function Home() {
                     dataLength={result.rows.length}
                     next={() => {
                       if (keywordQueryString !== "") {
-                        fetchData(keywordQueryString, page + 1);
+                        fetchSearchResult(
+                          keywordQueryString,
+                          page + 1,
+                          DEFAULT_LIMIT,
+                          true
+                        );
                         setPage(page + 1);
                       }
                     }}
-                    hasMore={page < result.total_page}
+                    hasMore={page < result.total_pages}
                     className="flex flex-col gap-3"
                     loader={<div className="text-center">Đang tải...</div>}
                   >
@@ -142,17 +150,6 @@ export default function Home() {
                       );
                     })}
                   </InfiniteScroll>
-
-                  {isComponentVisible && current ? (
-                    <InfringeModal
-                      ref={ref}
-                      infringe={current}
-                      onClose={() => {
-                        setIsComponentVisible(false);
-                        setCurrent(null);
-                      }}
-                    />
-                  ) : null}
                 </Flex>
               </>
             ) : null}

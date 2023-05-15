@@ -1,11 +1,10 @@
 import Container from "@/components/common/Container";
 import MainLayout from "@/components/layouts/MainLayout";
+import API from "@/config/api";
+import Dieu from "@/types/dieu/Dieu";
+import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { Fragment } from "react";
-import { GetServerSidePropsContext } from "next";
-import API from "@/config/api";
-import Chapter from "@/types/chapter/Chapter";
-import Dieu from "@/types/dieu/Dieu";
 
 type Props = {
   dieus: Dieu[];
@@ -78,18 +77,17 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const api = new API();
-  const { id } = context.query;
+  let { id: idParams } = context.query;
   let dieus = [];
   let contentHtml = "";
-  if (id) {
-    try {
-      const { dieus: data } = await api.get("punishments/menu/" + id);
-      const { html } = await api.get("punishments/" + id);
-      dieus = data;
-      contentHtml = html;
-    } catch (error) {
-      console.log("Error", error);
-    }
+  const id = idParams ? `${idParams}` : 100;
+  try {
+    const { dieus: data } = await api.get("punishments/menu/" + id);
+    const { html } = await api.get("punishments/" + id);
+    dieus = data;
+    contentHtml = html;
+  } catch (error) {
+    console.log("Error", error);
   }
 
   return {

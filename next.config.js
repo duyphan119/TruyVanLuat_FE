@@ -8,6 +8,9 @@ const nextConfig = {
       "bizweb.dktcdn.net",
     ],
   },
+  env: {
+    LAWS_API: process.env.LAWS_API,
+  },
 };
 
 module.exports = nextConfig;

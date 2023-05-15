@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Fragment } from "react";
 import NextNProgress from "nextjs-progressbar";
-import Facebook from "@/components/Facebook";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -11,7 +10,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Website hỗ trợ truy vấn luật giao thông đường bộ</title>
       </Head>
-      <Facebook />
       <NextNProgress
         color="rgb(99, 102, 241, 0.5)"
         startPosition={0.3}

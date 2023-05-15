@@ -77,7 +77,6 @@ const Select = ({
       <select
         id={id}
         disabled={disabled}
-        {...register}
         className={`
           w-full
           font-light 
@@ -96,6 +95,7 @@ const Select = ({
         `}
         {...(value ? { value } : {})}
         {...(onChange ? { onChange } : {})}
+        {...register}
       >
         {options.map(({ label, value }) => (
           <option className="" key={value} value={value}>

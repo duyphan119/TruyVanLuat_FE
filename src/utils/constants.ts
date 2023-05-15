@@ -5,4 +5,12 @@ export const PUBLIC_ROUTES = {
   OVERVIEW: "/gioi-thieu",
   CONTACT: "/lien-he",
   VIOLATIONS: "/vi-pham",
+  GROUP_VIOLATIONS: "/nhom-vi-pham",
 };
+
+export const PAGINATION_RESPONSE_EMPTY = {
+  rows: [],
+  count: 0,
+  total_pages: 0,
+};
+export const DEFAULT_LIMIT = 10;

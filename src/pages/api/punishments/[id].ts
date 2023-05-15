@@ -25,6 +25,8 @@ export default async function get(
 
   $("p").each(function () {
     const name = $(this).find("a").attr("name");
+    $(this).find("a").removeAttr("onmouseover");
+    $(this).find("a").removeAttr("onmouseout");
     if (name) {
       $(this).attr("id", name);
     }

@@ -1,8 +1,9 @@
+import violationApi from "@/api/violation.api";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
 import MainLayout from "@/components/layouts/MainLayout";
-import API from "@/config/api";
-import Infringe from "@/types/infringe/Infringe";
+import Violation from "@/types/violation/Violation";
+
 import { generateHref, generateHrefId } from "@/utils/helpers";
 import Head from "next/head";
 import Link from "next/link";
@@ -10,7 +11,7 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
 type Props = {
-  data: Infringe;
+  data: Violation;
 };
 
 const Page = (props: Props) => {
@@ -18,18 +19,16 @@ const Page = (props: Props) => {
   const { id } = query;
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Infringe | null>(null);
+  const [data, setData] = useState<Violation | null>(null);
 
   useEffect(() => {
     setLoading(true);
-    const api = new API("http://localhost:5000");
     if (id)
-      api
-        .get(`violation/${id}`)
+      violationApi
+        .getById(`${id}`)
         .then((result) => {
           setData(result);
         })
-        .catch((error) => console.log(error))
         .finally(() => {
           setLoading(false);
         });
@@ -44,7 +43,7 @@ const Page = (props: Props) => {
       <MainLayout>
         <div className="violation-detail">
           <Container>
-            <div className="">Đối tượng: {data.apply_for_detail}</div>
+            <div className="">Đối tượng: {data.apply_for}</div>
             <div className="font-bold mt-2 text-lg">{data.content}</div>
             <div className="text-red-500 my-1">{data.punishment}</div>
             <Flex className="flex-col text-sm mt-1 !items-start !gap-0">
@@ -53,6 +52,7 @@ const Page = (props: Props) => {
                   <Flex className="!gap-1" key={index}>
                     <span className="">Xem chi tiết:</span>
                     <Link
+                      target="_blank"
                       href={generateHref(text)}
                       className=" underline text-blue-500 hover:text-blue-600"
                     >
@@ -71,6 +71,7 @@ const Page = (props: Props) => {
                       <Flex className="!gap-1" key={index}>
                         <span className="text-red-500">Sửa đổi bởi:</span>
                         <Link
+                          target="_blank"
                           href={generateHref(text)}
                           className=" underline text-blue-500 hover:text-blue-600"
                         >
@@ -99,6 +100,7 @@ const Page = (props: Props) => {
                             <span>Xem chi tiết:</span>
                             <Link
                               key={index}
+                              target="_blank"
                               href={generateHref(text)}
                               className="underline text-blue-500 block"
                             >
@@ -115,6 +117,7 @@ const Page = (props: Props) => {
                             <span className="text-red-500">Sửa đổi bởi:</span>
                             <Link
                               key={index}
+                              target="_blank"
                               href={generateHref(text)}
                               className="underline text-blue-500 block"
                             >
@@ -142,6 +145,7 @@ const Page = (props: Props) => {
                           <span>Xem chi tiết:</span>
                           <Link
                             key={index}
+                            target="_blank"
                             href={generateHref(text)}
                             className="underline text-blue-500 block"
                           >
@@ -158,6 +162,7 @@ const Page = (props: Props) => {
                             <span className="text-red-500">Sửa đổi bởi:</span>
                             <Link
                               key={index}
+                              target="_blank"
                               href={generateHref(text)}
                               className="underline text-blue-500 block"
                             >
@@ -185,6 +190,7 @@ const Page = (props: Props) => {
                           <span>Xem chi tiết:</span>
                           <Link
                             key={index}
+                            target="_blank"
                             href={generateHref(text)}
                             className="underline text-blue-500 block"
                           >

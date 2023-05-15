@@ -6,13 +6,13 @@ const api = new API("https://6347a3670484786c6e84e128.mockapi.io/api/v1");
 
 interface IEmployeeStore {
   rows: Employee[];
-  totalPage: number;
+  totalPages: number;
   get: (params?: any) => Promise<void>;
 }
 
 const useEmployeeStore = create<IEmployeeStore>((set) => ({
   rows: [],
-  totalPage: 1,
+  totalPages: 1,
   add: (newRow: Employee, max?: number) =>
     set((state) => {
       if (max && state.rows.length < max) {
@@ -43,11 +43,11 @@ const useEmployeeStore = create<IEmployeeStore>((set) => ({
 
     const { p, limit } = params;
     if (p && limit) {
-      const totalPage = Math.ceil(data.length / limit);
+      const totalPages = Math.ceil(data.length / limit);
 
       const newData = data.splice((p - 1) * limit, limit);
 
-      return set({ rows: newData, totalPage });
+      return set({ rows: newData, totalPages });
     }
 
     return set({ rows: data });

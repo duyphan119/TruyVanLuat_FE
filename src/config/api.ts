@@ -33,9 +33,16 @@ import axios, { AxiosInstance } from "axios";
 
 class API {
   instance: AxiosInstance;
-  constructor(baseURL?: string) {
+  constructor(baseURL?: string, bearerToken?: string) {
     this.instance = axios.create({
       baseURL: baseURL || "http://localhost:3000/api",
+      ...(bearerToken
+        ? {
+            headers: {
+              Authorization: `Bearer ${bearerToken}`,
+            },
+          }
+        : {}),
     });
   }
 
