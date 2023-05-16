@@ -14,10 +14,10 @@ const api = new API(process.env.LAWS_API);
 
 const getAll = (
   params?: ViolationParams
-): Promise<PaginationResponse<Violation>> => api.get("violation", params);
+): Promise<PaginationResponse<Violation>> => api.get("violations", params);
 
 const getById = (id: string): Promise<Violation> =>
-  api.get(`violation/${id}`).catch((error) => console.log(error));
+  api.get(`violations/${id}`).catch((error) => console.log(error));
 
 const search = (
   keyword: string,
@@ -25,7 +25,7 @@ const search = (
   limit?: number
 ): Promise<PaginationResponse<Violation>> =>
   api
-    .get(`violation/search`, { keyword, p, limit })
+    .get(`violations/search`, { keyword, p, limit })
     .catch((error) => console.log(error));
 
 const violationApi = {

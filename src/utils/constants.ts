@@ -6,6 +6,7 @@ export const PUBLIC_ROUTES = {
   CONTACT: "/lien-he",
   VIOLATIONS: "/vi-pham",
   GROUP_VIOLATIONS: "/nhom-vi-pham",
+  NGHI_DINH: "/nghi-dinh",
 };
 
 export const PAGINATION_RESPONSE_EMPTY = {

@@ -104,7 +104,7 @@ export default function Page() {
   const sendMessage = (content: string) => {
     socket.emit("user-send-message", content);
     const dateString = new Date().toISOString();
-
+    setValue("keyword", "");
     setMessages([
       ...messages,
       {
@@ -145,7 +145,7 @@ export default function Page() {
           <Container className="py-2">
             <div
               style={{ height: "calc(100vh - 80px)" }}
-              className="box   relative flex flex-col border border-indigo-500"
+              className="box relative flex flex-col border border-indigo-500"
             >
               <div
                 className="chat flex-1 relative overflow-x-hidden overflow-y-auto"
@@ -156,7 +156,20 @@ export default function Page() {
                     <div className="text-center mb-4 text-2xl">
                       Gợi ý câu hỏi
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:hidden gap-4">
+                      {[...recommendList].splice(0, 3).map((recommend) => {
+                        return (
+                          <div
+                            key={recommend.id}
+                            className="text-center bg-gray-200 rounded-sm p-2 cursor-pointer hover:bg-gray-300"
+                            onClick={() => handleClickRecommend(recommend)}
+                          >
+                            "{recommend.content}"
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="md:grid md:grid-cols-3 hidden gap-4">
                       {recommendList.map((recommend) => {
                         return (
                           <div
@@ -203,7 +216,7 @@ export default function Page() {
                                 )}
                               </div>
                               <div
-                                className="p-2 bg-indigo-500 rounded-lg text-white"
+                                className="p-2 bg-indigo-500 rounded-lg text-white inline-block"
                                 dangerouslySetInnerHTML={{
                                   __html: message.content,
                                 }}
@@ -234,7 +247,6 @@ export default function Page() {
           </Container>
         </div>
       </MainLayout>
-      <Script src="/js/chat.js" />
     </Fragment>
   );
 }

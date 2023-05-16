@@ -1,6 +1,7 @@
 import violationApi from "@/api/violation.api";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
+import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
 import Violation from "@/types/violation/Violation";
 
@@ -33,7 +34,7 @@ const Page = (props: Props) => {
           setLoading(false);
         });
   }, [id]);
-  if (loading) return <Fragment>Loading...</Fragment>;
+  if (loading) return <Loading fullScreen={true} />;
   if (!data) return <Fragment>Not found</Fragment>;
   return (
     <Fragment>

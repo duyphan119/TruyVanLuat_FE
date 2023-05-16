@@ -1,6 +1,9 @@
+import Diem from "../diem/Diem";
+
 type Khoan = {
-  id: string;
+  code: string;
   title: string;
+  diems: Diem[];
 };
 
 export default Khoan;

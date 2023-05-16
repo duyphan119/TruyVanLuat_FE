@@ -1,6 +1,7 @@
 import violationApi from "@/api/violation.api";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
+import Loading from "@/components/common/Loading";
 import Select from "@/components/common/Select";
 import MainLayout from "@/components/layouts/MainLayout";
 import useQueryString from "@/hooks/useQueryString";
@@ -85,10 +86,10 @@ const Page = (props: Props) => {
         <title>Nhóm vi phạm</title>
       </Head>
       {loading ? (
-        "Đang tải ..."
+        <Loading fullScreen={true} />
       ) : (
         <MainLayout>
-          <Container>
+          <Container className="py-3">
             <h1 className="text-center my-4 text-3xl">Danh sách vi phạm</h1>
             <Flex className="flex-col !items-start ">
               <Flex className="w-full !justify-between">
@@ -130,7 +131,11 @@ const Page = (props: Props) => {
                 }}
                 hasMore={page < totalPages}
                 className="flex flex-col gap-3"
-                loader={<div className="text-center">Đang tải...</div>}
+                loader={
+                  <div className="overflow-hidden">
+                    <Loading />
+                  </div>
+                }
               >
                 {rows.map((row) => {
                   return (

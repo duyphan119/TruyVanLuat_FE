@@ -1,9 +1,8 @@
 import Khoan from "../khoan/Khoan";
 
-type Dieu = {
+type Diem = {
   code: string;
   title: string;
-  khoans: Khoan[];
 };
 
-export default Dieu;
+export default Diem;

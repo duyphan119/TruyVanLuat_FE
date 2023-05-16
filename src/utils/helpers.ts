@@ -1,3 +1,5 @@
+import { PUBLIC_ROUTES } from "./constants";
+
 export const formatPrice = (price: number) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
@@ -18,7 +20,7 @@ export const generateHrefId = (detail: string) => {
 };
 
 export const generateHref = (detail: string) => {
-  let result = "/xu-phat";
+  let result = PUBLIC_ROUTES.NGHI_DINH;
   const split = detail.split(" NĐ ");
 
   if (split[1]) {
