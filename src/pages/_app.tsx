@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Fragment } from "react";
 import NextNProgress from "nextjs-progressbar";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -17,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
         height={3}
         showOnShallow={true}
       />
+      <ScrollToTop />
       <Component {...pageProps} />
     </Fragment>
   );

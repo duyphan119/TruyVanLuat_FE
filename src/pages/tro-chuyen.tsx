@@ -7,6 +7,7 @@ import Infringe from "@/types/infringe/Infringe";
 import PaginationResponse from "@/types/response/PaginationResponse";
 import Violation from "@/types/violation/Violation";
 import { DEFAULT_LIMIT, PAGINATION_RESPONSE_EMPTY } from "@/utils/constants";
+import axios from "axios";
 import moment from "moment";
 import Head from "next/head";
 import Image from "next/image";
@@ -15,7 +16,9 @@ import Script from "next/script";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsSendFill } from "react-icons/bs";
+import diems from "@/jsons/vanban.json";
 import { io } from "socket.io-client";
+import { data1 } from "@/jsons/create";
 const socket = io(`${process.env.LAWS_API}`);
 
 type Recommend = {
@@ -26,39 +29,39 @@ type Recommend = {
 const recommendList: Recommend[] = [
   {
     id: "1",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Đi ngược chiều bị phạt gì?",
   },
   {
     id: "2",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Xe ô tô vượt đèn đỏ bị phạt gì?",
   },
   {
     id: "3",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Điểm a Khoản 2 Điều 16 NĐ 100 là gì?",
   },
   {
     id: "4",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Chạy xe không có Giấy phép lái xe thì sao?",
   },
   {
     id: "5",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Không nhường xe ưu tiên",
   },
   {
     id: "6",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Đua xe mô tô có sao không?",
   },
   {
     id: "7",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Tôi cần đội mũ bảo hiểm khi nào?",
   },
   {
     id: "8",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Tôi phạm luật khi tôi vượt quá tốc độ tối đa như thế nào?",
   },
   {
     id: "9",
-    content: "Vượt đèn đỏ có bị phạt không?",
+    content: "Tôi có thể đỗ xe trên vỉa hè không?",
   },
 ];
 
@@ -135,6 +138,14 @@ export default function Page() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    const test = async () => {
+      // await axios.post("http://localhost:5000/violations/many", []);
+      await axios.post("http://localhost:5000/solutions/many", data1);
+    };
+    // test();
+  }, []);
+
   return (
     <Fragment>
       <Head>
@@ -161,7 +172,7 @@ export default function Page() {
                         return (
                           <div
                             key={recommend.id}
-                            className="text-center bg-gray-200 rounded-sm p-2 cursor-pointer hover:bg-gray-300"
+                            className="flex items-center justify-center text-center bg-gray-200 rounded-sm p-2 cursor-pointer hover:bg-gray-300"
                             onClick={() => handleClickRecommend(recommend)}
                           >
                             "{recommend.content}"
@@ -174,7 +185,7 @@ export default function Page() {
                         return (
                           <div
                             key={recommend.id}
-                            className="text-center bg-gray-200 rounded-sm p-2 cursor-pointer hover:bg-gray-300"
+                            className="flex items-center justify-center text-center bg-gray-200 rounded-sm p-2 cursor-pointer hover:bg-gray-300"
                             onClick={() => handleClickRecommend(recommend)}
                           >
                             "{recommend.content}"
@@ -209,7 +220,7 @@ export default function Page() {
                                 className="rounded-[50%]"
                               />
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                               <div className="text-[12px] mb-1">
                                 {moment(message.createdAt).format(
                                   "MM/DD/YYYY h:mm:ss A"
@@ -235,7 +246,7 @@ export default function Page() {
               >
                 <input
                   type="search"
-                  className="outline-none flex-1 p-2 text-sm bg-inherit border hover:border-indigo-500 focus:border-indigo-500"
+                  className="outline-none flex-1 p-2 text-sm bg-inherit border hover:border-indigo-500 focus:border-indigo-500 rounded-sm"
                   placeholder="Hỏi tôi điều gì đó về luật giao thông đường bộ..."
                   {...register("keyword")}
                 />

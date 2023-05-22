@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   color?: "primary" | "error";
   variant?: "contained" | "outlined";
   onClick?: () => void;
+  href?: string;
+  title?: string;
 };
 
 const Button = ({
@@ -18,12 +21,10 @@ const Button = ({
   color = "primary",
   variant = "contained",
   onClick,
+  href,
+  title,
 }: Props) => {
-  return (
-    <button
-      type={type}
-      disabled={disabled}
-      className={` 
+  const wrapperClassName = ` 
         border
         cursor-pointer
         bg-indigo-500 border-indigo-500 hover:bg-white hover:text-indigo-500
@@ -42,12 +43,21 @@ const Button = ({
         rounded-md
         py-2 px-4
         ${className}
-        `}
+        `;
+
+  const button = (
+    <button
+      type={type}
+      disabled={disabled}
+      className={wrapperClassName}
       onClick={onClick}
+      title={title}
     >
       {children}
     </button>
   );
+
+  return href ? <Link href={href}>{button}</Link> : button;
 };
 
 export default Button;

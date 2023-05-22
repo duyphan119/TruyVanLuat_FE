@@ -5,6 +5,8 @@ const schema = new mongoose.Schema({
   href: String,
   short_code: String,
   html: String,
+  title: String,
+  type: String,
   dieus: Array<{
     title: String;
     code: String;

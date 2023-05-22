@@ -16,17 +16,14 @@ const getAll = (
   params?: ViolationParams
 ): Promise<PaginationResponse<Violation>> => api.get("violations", params);
 
-const getById = (id: string): Promise<Violation> =>
-  api.get(`violations/${id}`).catch((error) => console.log(error));
+const getById = (id: string): Promise<Violation> => api.get(`violations/${id}`);
 
 const search = (
   keyword: string,
   p?: number,
   limit?: number
 ): Promise<PaginationResponse<Violation>> =>
-  api
-    .get(`violations/search`, { keyword, p, limit })
-    .catch((error) => console.log(error));
+  api.get(`violations/search`, { keyword, p, limit });
 
 const violationApi = {
   getById,

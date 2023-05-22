@@ -142,7 +142,7 @@ const Page = (props: Props) => {
                     <Fragment key={row.id}>
                       <Link
                         href={`${PUBLIC_ROUTES.VIOLATIONS}/${row.id}`}
-                        className="border border-black w-full p-4 cursor-pointer hover:bg-gray-50 block"
+                        className="border border-black w-full p-4 cursor-pointer hover:bg-gray-50 block bg-white rounded-sm"
                       >
                         <div className="">Đối tượng: {row.apply_for}</div>
                         <div className="font-bold mt-2">{row.content}</div>

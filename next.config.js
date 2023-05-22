@@ -6,6 +6,8 @@ const nextConfig = {
       "cloudflare-ipfs.com",
       "product.hstatic.net",
       "bizweb.dktcdn.net",
+      "cdn.baogiaothong.vn",
+      "i1-vnexpress.vnecdn.net",
     ],
   },
   env: {

@@ -11,6 +11,7 @@ html,
 body {
     height: 100%;
     min-height: 100%;
+    overflow-y: overlay;
 }
 
 .overlay {
@@ -28,4 +29,26 @@ body {
 
 p:target {
     background-color: yellow;
+}
+.three-dot {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.three-dot-2 {
+    -webkit-line-clamp: 2;
+}
+
+.three-dot-3 {
+    -webkit-line-clamp: 3;
+}
+
+.three-dot-4 {
+    -webkit-line-clamp: 4;
+}
+
+.three-dot-8 {
+    -webkit-line-clamp: 8;
 }

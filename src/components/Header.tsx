@@ -9,25 +9,32 @@ import GroupViolation from "@/types/groupViolation/GroupValidation";
 import { BiMenu } from "react-icons/bi";
 import { GrClose } from "react-icons/gr";
 import useComponentVisible from "@/hooks/useComponentVisible";
+import Input from "./common/Input";
+import { FaSearch } from "react-icons/fa";
+import SearchHeader from "./SearchHeader";
 
 type Props = {};
 
 const items = [
   {
-    href: PUBLIC_ROUTES.OVERVIEW,
-    label: "Giới thiệu",
+    href: PUBLIC_ROUTES.CHAT,
+    label: "Trò chuyện",
+    title: "Trò chuyện với Bot",
   },
   {
-    href: PUBLIC_ROUTES.NGHI_DINH,
-    label: "Nghị định",
+    href: PUBLIC_ROUTES.VANBAN,
+    label: "Văn bản",
+    title: "Xem tất cả văn bản",
   },
   {
     href: PUBLIC_ROUTES.VIOLATIONS,
     label: "Vi phạm",
+    title: "Xem tất cả vi phạm",
   },
   {
-    href: PUBLIC_ROUTES.CONTACT,
-    label: "Liên hệ",
+    href: PUBLIC_ROUTES.NEWS,
+    label: "Tin tức",
+    title: "Xem tất cả tin tức",
   },
 ];
 
@@ -52,11 +59,25 @@ const Header = (props: Props) => {
   return (
     <header className="border-b border-b-gray-200 h-16">
       <Container>
-        <Flex className="justify-between relative">
+        <Flex className="justify-between relative lg:!gap-12">
           <div className="ml-2 md:ml-0">
-            <Link href={PUBLIC_ROUTES.HOME} className="h-16 flex items-center">
-              Truy vấn luật giao thông đường bộ
+            <Link
+              href={PUBLIC_ROUTES.HOME}
+              className="h-16 flex items-center text-indigo-300 text-lg"
+            >
+              <span className="text-red-500 underline uppercase font-extrabold">
+                Luật
+              </span>
+              <span className="text-yellow-500 underline uppercase font-bold">
+                Giao
+              </span>
+              <span className="text-green-500 underline uppercase font-semibold">
+                Thông
+              </span>
             </Link>
+          </div>
+          <div className="flex-1">
+            <SearchHeader />
           </div>
           <label
             className="mr-2 cursor-pointer flex items-center md:hidden"
@@ -81,7 +102,7 @@ const Header = (props: Props) => {
                 <GrClose />
               </label>
               <ul className="flex flex-col items-start gap-1">
-                {items.map(({ label, href }) => {
+                {items.map(({ label, href, title }) => {
                   const isActive = pathname === href;
                   return (
                     <li className="group relative" key={label}>
@@ -90,6 +111,7 @@ const Header = (props: Props) => {
                         className={`block hover:text-indigo-500 ${
                           isActive ? "border-b-2 border-b-indigo-500" : ""
                         } ${isActive ? "text-indigo-500" : ""}`}
+                        title={title}
                       >
                         {label}
                       </Link>
@@ -100,7 +122,7 @@ const Header = (props: Props) => {
             </Flex>
           </div>
           <ul className="md:flex items-center gap-4 hidden">
-            {items.map(({ label, href }) => {
+            {items.map(({ label, href, title }) => {
               const isActive = pathname === href;
               return (
                 <li className="group relative" key={label}>
@@ -109,6 +131,7 @@ const Header = (props: Props) => {
                     className={`block px-2 py-4 hover:text-indigo-500  ${
                       isActive ? "border-b-2 border-b-indigo-500" : ""
                     } ${isActive ? "text-indigo-500" : ""}`}
+                    title={title}
                   >
                     {label}
                   </Link>

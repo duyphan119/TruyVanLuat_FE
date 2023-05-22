@@ -1,31 +1,27 @@
-import Container from "@/components/common/Container";
-import DrawerMenu from "@/components/DrawerMenu";
-import MainLayout from "@/components/layouts/MainLayout";
-import Menu from "@/components/Menu";
-import API from "@/config/api";
-import VanBan from "@/types/vanban/VanBan";
-import { GetServerSidePropsContext } from "next";
-import Head from "next/head";
 import { Fragment } from "react";
+import Head from "next/head";
+import MainLayout from "@/components/layouts/MainLayout";
+import Container from "@/components/common/Container";
+import { GetServerSidePropsContext } from "next";
+import vanbanApi from "@/api/vanban.api";
+import VanBan from "@/types/vanban/VanBan";
 
 type Props = {
-  vanBan: VanBan;
+  vanban: VanBan;
 };
 
-const Page = ({ vanBan }: Props) => {
-  const { dieus, html, title, type } = vanBan;
+const Page = ({ vanban }: Props) => {
+  const { html, type, title } = vanban;
   return (
     <Fragment>
       <Head>
         <title>{title}</title>
       </Head>
       <MainLayout>
-        <Container className="py-4">
+        <Container>
           <div className="text-center font-bold text-lg">{type}</div>
           <div className="text-center text-lg">{title}</div>
-          <DrawerMenu dieus={dieus || []} />
           <div className="flex gap-4 my-4 items-stretch">
-            <Menu dieus={dieus || []} />
             <div className="right flex-[3] p-2 border border-gray-300 rounded-sm">
               <div
                 className="content"
@@ -42,19 +38,15 @@ const Page = ({ vanBan }: Props) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const api = new API();
-  let { id: idParams } = context.query;
-  const id = idParams ? `${idParams}` : 100;
+  const slug = context.query.slug;
   try {
-    const vanBan = await api.get("vanban/" + id);
+    const data = await vanbanApi.getBySlug(`${slug}`);
     return {
       props: {
-        vanBan,
+        vanban: data,
       },
     };
-  } catch (error) {
-    console.log("Error", error);
-  }
+  } catch (error) {}
   return {
     notFound: true,
   };
