@@ -32,6 +32,12 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Page from "./tro-chuyen";
+import { GrFormNextLink } from "react-icons/gr";
+import { BsNewspaper } from "react-icons/bs";
+import { RiQuestionnaireLine } from "react-icons/ri";
+import { VscLaw } from "react-icons/vsc";
+import SectionHomeSearch from "@/components/SectionHomeSearch";
+import SectionHomeTopics from "@/components/SectionHomeTopics";
 
 type Result = {
   rows: Infringe[];
@@ -89,80 +95,11 @@ export default function Home() {
       <Head>
         <title>Trang chủ</title>
       </Head>
-      <MainLayout>
-        <div className="home">
-          <Container className="py-2">
-            {/* <Flex className="flex-col">
-              <h1 className="text-3xl font-semibold">Truy vấn</h1>
-              <form
-                className="w-full flex flex-col gap-4"
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Input
-                  type="search"
-                  startIcon={FaSearch}
-                  placeholder="Nhập từ khoá cần tìm..."
-                  register={register("keyword")}
-                  id="keyword"
-                  size="medium"
-                />
-              </form>
-            </Flex>
-            {!loading && keywordQueryString !== "" ? (
-              <>
-                <div className="mt-5 mb-3">
-                  {result.count} Kết quả tìm kiếm với từ khoá: "
-                  {keywordQueryString}"
-                </div>
-                <Flex className="flex-col !items-start">
-                  <InfiniteScroll
-                    dataLength={result.rows.length}
-                    next={() => {
-                      if (keywordQueryString !== "") {
-                        fetchSearchResult(
-                          keywordQueryString,
-                          page + 1,
-                          DEFAULT_LIMIT,
-                          true
-                        );
-                        setPage(page + 1);
-                      }
-                    }}
-                    hasMore={page < result.total_pages}
-                    className="flex flex-col gap-3"
-                    loader={<div className="text-center">Đang tải...</div>}
-                  >
-                    {result.rows.map((result) => {
-                      return (
-                        <Fragment key={result.id}>
-                          <Link
-                            href={`${PUBLIC_ROUTES.VIOLATIONS}/${result.id}`}
-                            className="border border-black w-full p-4 cursor-pointer hover:bg-gray-50 block"
-                          >
-                            <div className="">
-                              Đối tượng: {result.apply_for}
-                            </div>
-                            <div className="font-bold mt-2">
-                              {result.content}
-                            </div>
-                            <div className="text-red-500 text-sm my-1">
-                              {result.punishment}
-                            </div>
-                            <div className="text-[12px] underline text-blue-500">
-                              Xem chi tiết
-                            </div>
-                          </Link>
-                        </Fragment>
-                      );
-                    })}
-                  </InfiniteScroll>
-                </Flex>
-              </>
-            ) : null} */}
-            <SectionHomeVanBan />
-            <SectionHomeNews />
-          </Container>
-        </div>
+      <MainLayout onlyChildren={true}>
+        <SectionHomeSearch />
+        <SectionHomeTopics />
+        <SectionHomeVanBan />
+        <SectionHomeNews />
       </MainLayout>
     </Fragment>
   );

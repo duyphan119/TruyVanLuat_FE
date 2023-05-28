@@ -8,6 +8,7 @@ const nextConfig = {
       "bizweb.dktcdn.net",
       "cdn.baogiaothong.vn",
       "i1-vnexpress.vnecdn.net",
+      "s1.vnecdn.net",
     ],
   },
   env: {

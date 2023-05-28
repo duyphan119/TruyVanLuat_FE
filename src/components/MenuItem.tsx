@@ -10,7 +10,7 @@ const MenuItem = ({ dieu }: Props) => {
     <li className="px-2">
       <a
         href={`#${dieu.code}`}
-        className="hover:text-indigo-500 font-semibold three-dot three-dot-3"
+        className="hover:text-[var(--mainColor)] font-semibold three-dot three-dot-3"
         title={dieu.title}
       >
         {dieu.title}
@@ -22,7 +22,7 @@ const MenuItem = ({ dieu }: Props) => {
               <li className="py-2" key={index}>
                 <a
                   href={`#${khoan.code}`}
-                  className="hover:text-indigo-500 text-justify three-dot three-dot-3"
+                  className="hover:text-[var(--mainColor)] text-justify three-dot three-dot-3"
                   title={khoan.title}
                 >
                   {khoan.title}

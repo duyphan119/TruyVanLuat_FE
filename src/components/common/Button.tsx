@@ -27,7 +27,7 @@ const Button = ({
   const wrapperClassName = ` 
         border
         cursor-pointer
-        bg-indigo-500 border-indigo-500 hover:bg-white hover:text-indigo-500
+        bg-[var(--mainColor)] border-[var(--mainColor)] hover:bg-white hover:text-[var(--mainColor)]
         ${
           color === "error"
             ? "bg-rose-500 border-rose-500 hover:bg-white hover:text-rose-500"
@@ -36,7 +36,7 @@ const Button = ({
         ${
           variant === "outlined"
             ? `bg-transparent ${
-                color === "error" ? "text-rose-500" : "text-indigo-500"
+                color === "error" ? "text-rose-500" : "text-[var(--mainColor)]"
               }`
             : "text-white"
         }

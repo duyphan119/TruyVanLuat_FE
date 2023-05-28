@@ -10,8 +10,12 @@ export const PUBLIC_ROUTES = {
   CHAT: "/tro-chuyen",
   NEWS: "/tin-tuc",
   VANBAN: "/van-ban",
+  SEARCH: "/tim-kiem",
 };
-
+export const IS_NEXT_RESPONSE_EMPTY = {
+  rows: [],
+  isNext: false,
+};
 export const PAGINATION_RESPONSE_EMPTY = {
   rows: [],
   count: 0,
@@ -21,4 +25,7 @@ export const DEFAULT_LIMIT = 10;
 export const DEFAULT_PAGE = 1;
 export const HOME_PAGE = {
   LIMIT_NEWS: 4,
+  LIMIT_VANBAN: 10,
 };
+export const PLACEHOLDER_THUMBNAIL = "/images/placeholder-thumbnail.jfif";
+export const HEADER_HEIGHT = 80;

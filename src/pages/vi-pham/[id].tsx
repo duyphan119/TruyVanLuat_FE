@@ -42,7 +42,7 @@ const Page = (props: Props) => {
         <title>Thông tin vi phạm</title>
       </Head>
       <MainLayout>
-        <div className="violation-detail">
+        {/* <div className="violation-detail">
           <Container>
             <div className="">Đối tượng: {data.apply_for}</div>
             <div className="font-bold mt-2 text-lg">{data.content}</div>
@@ -204,7 +204,7 @@ const Page = (props: Props) => {
               </Fragment>
             ) : null}
           </Container>
-        </div>
+        </div> */}
       </MainLayout>
     </Fragment>
   );

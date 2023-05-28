@@ -1,8 +1,10 @@
 import vanbanApi from "@/api/vanban.api";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
 import Pagination from "@/components/common/Pagination";
 import MainLayout from "@/components/layouts/MainLayout";
+import { violationData } from "@/jsons/violation.dummy";
 import PaginationResponse from "@/types/response/PaginationResponse";
 import VanBanCrawled from "@/types/vanban/VanBanCrawled";
 import { PUBLIC_ROUTES } from "@/utils/constants";
@@ -14,7 +16,7 @@ import { Fragment } from "react";
 
 type Props = {
   data: PaginationResponse<VanBanCrawled>;
-  p: number
+  p: number;
 };
 
 const Page = ({ data, p }: Props) => {
@@ -23,8 +25,10 @@ const Page = ({ data, p }: Props) => {
   const { rows, count, total_pages } = data;
 
   const handlePageChange = (page: number) => {
-    router.push("?p="+page)
+    router.push("?p=" + page);
   };
+
+  console.log(violationData);
 
   return (
     <Fragment>
@@ -34,8 +38,18 @@ const Page = ({ data, p }: Props) => {
       <MainLayout>
         <Container className="py-4">
           <Flex className="flex-col !gap-4 !items-start">
-            <h1 className="text-center">Tất cả văn bản</h1>
-            {data.count}
+            <Breadcrumbs
+              items={[
+                {
+                  href: PUBLIC_ROUTES.HOME,
+                  label: "Trang chủ",
+                  hideSeperateAfter: true,
+                },
+              ]}
+              current="Tất cả văn bản"
+              titleCenter={true}
+            />
+            <p className="text-right w-full">Có {data.count} văn bản</p>
             <Flex className="flex-col !gap-4 !items-start">
               {rows.map(({ title, slug, issue }) => {
                 return (
@@ -44,7 +58,7 @@ const Page = ({ data, p }: Props) => {
                     key={slug}
                     title={title}
                   >
-                    <p className="hover:text-indigo-500 font-medium three-dot three-dot-2">
+                    <p className="hover:text-[var(--mainColor)] font-medium three-dot three-dot-2">
                       {title}
                     </p>
                     <p className="text-sm mt-1 inline-block text-gray-500">
@@ -53,13 +67,15 @@ const Page = ({ data, p }: Props) => {
                   </Link>
                 );
               })}
-              <Pagination
-              className="w-full"
-              listDotsClassName="justify-center"
-                totalPages={total_pages}
-                current={p}
-                onPageChange={handlePageChange}
-              />
+              {count > 0 ? (
+                <Pagination
+                  className="w-full"
+                  listDotsClassName="justify-center"
+                  totalPages={total_pages}
+                  current={p}
+                  onPageChange={handlePageChange}
+                />
+              ) : null}
             </Flex>
           </Flex>
         </Container>
@@ -73,7 +89,7 @@ export const getServerSideProps = async (
 ) => {
   const { p } = context.query;
   try {
-    const page = p ? +p : 1
+    const page = p ? +p : 1;
     const data = await vanbanApi.getAll(page);
     return { props: { data, p: page } };
   } catch (error) {}

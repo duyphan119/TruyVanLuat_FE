@@ -6,7 +6,11 @@ import useQueryString from "@/hooks/useQueryString";
 import Infringe from "@/types/infringe/Infringe";
 import PaginationResponse from "@/types/response/PaginationResponse";
 import Violation from "@/types/violation/Violation";
-import { DEFAULT_LIMIT, PAGINATION_RESPONSE_EMPTY } from "@/utils/constants";
+import {
+  DEFAULT_LIMIT,
+  HEADER_HEIGHT,
+  PAGINATION_RESPONSE_EMPTY,
+} from "@/utils/constants";
 import axios from "axios";
 import moment from "moment";
 import Head from "next/head";
@@ -61,7 +65,8 @@ const recommendList: Recommend[] = [
   },
   {
     id: "9",
-    content: "Tôi có thể đỗ xe trên vỉa hè không?",
+    content:
+      "Nếu cần báo động hoặc tình huống khẩn cấp vào ban đêm, có được phép bấm còi trong đô thị và khu đông dân cư không?",
   },
 ];
 
@@ -152,11 +157,11 @@ export default function Page() {
         <title>Trò chuyện</title>
       </Head>
       <MainLayout>
-        <div className="home">
-          <Container className="py-2">
+        <div className="bg-[#f9f9f9] py-4">
+          <Container className="bg-white">
             <div
-              style={{ height: "calc(100vh - 80px)" }}
-              className="box relative flex flex-col border border-indigo-500"
+              style={{ height: `calc(100vh - ${HEADER_HEIGHT + 32}px)` }}
+              className="box relative flex flex-col border border-[var(--mainColor)]"
             >
               <div
                 className="chat flex-1 relative overflow-x-hidden overflow-y-auto"
@@ -227,7 +232,7 @@ export default function Page() {
                                 )}
                               </div>
                               <div
-                                className="p-2 bg-indigo-500 rounded-lg text-white inline-block"
+                                className="p-2 bg-[var(--mainColor)] rounded-lg text-white inline-block"
                                 dangerouslySetInnerHTML={{
                                   __html: message.content,
                                 }}
@@ -241,13 +246,14 @@ export default function Page() {
                 )}
               </div>
               <form
-                className="flex items-center p-3 border-t border-t-indigo-500 gap-3"
+                className="flex items-center p-3 border-t border-t-[var(--mainColor)] gap-3"
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <input
                   type="search"
-                  className="outline-none flex-1 p-2 text-sm bg-inherit border hover:border-indigo-500 focus:border-indigo-500 rounded-sm"
+                  className="outline-none flex-1 p-2 text-sm bg-inherit border hover:border-[var(--mainColor)] focus:border-[var(--mainColor)] rounded-sm"
                   placeholder="Hỏi tôi điều gì đó về luật giao thông đường bộ..."
+                  autoComplete="off"
                   {...register("keyword")}
                 />
                 <Button className="self-stretch" type="submit">

@@ -12,7 +12,7 @@ const getAll = (
   page?: number,
   limit?: number
 ): Promise<PaginationResponse<VanBanCrawled>> =>
-  api.get("van-ban", { limit, page });
+  api.get("van-ban", { limit, p: page });
 
 const vanbanApi = { getAllCrawled, getBySlug, getAll };
 

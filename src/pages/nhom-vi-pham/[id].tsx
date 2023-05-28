@@ -41,7 +41,7 @@ const Page = (props: Props) => {
     async (p?: number) => {
       const { id } = router.query;
       return violationApi.getAll({
-        group_violation_id: `${id}`,
+        // group_violation_id: `${id}`,
         limit: DEFAULT_LIMIT,
         page: p || 1,
         sort_by: sortBy,
@@ -137,7 +137,7 @@ const Page = (props: Props) => {
                   </div>
                 }
               >
-                {rows.map((row) => {
+                {/* {rows.map((row) => {
                   return (
                     <Fragment key={row.id}>
                       <Link
@@ -155,7 +155,7 @@ const Page = (props: Props) => {
                       </Link>
                     </Fragment>
                   );
-                })}
+                })} */}
               </InfiniteScroll>
             </Flex>
           </Container>

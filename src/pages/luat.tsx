@@ -32,7 +32,7 @@ const Laws = ({ chapters, contentHtml }: Props) => {
                     <li className="px-2" key={index}>
                       <a
                         href={`#${chapter.id}`}
-                        className="hover:text-indigo-500 font-semibold "
+                        className="hover:text-[var(--mainColor)] font-semibold "
                       >
                         {chapter.title}
                       </a>
@@ -43,7 +43,7 @@ const Laws = ({ chapters, contentHtml }: Props) => {
                               <li className="py-2" key={index}>
                                 <a
                                   href={`#${clause.id}`}
-                                  className="hover:text-indigo-500 text-justify"
+                                  className="hover:text-[var(--mainColor)] text-justify"
                                 >
                                   {clause.title}
                                 </a>

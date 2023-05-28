@@ -55,7 +55,7 @@ const GroupRadio = ({
             />
             <label
               htmlFor={id}
-              className={`w-4 h-4 cursor-pointer rounded-[50px] border border-black peer-checked:p-[1.5px] overflow-hidden peer-checked:bg-indigo-500 bg-clip-content ${dotClassName}`}
+              className={`w-4 h-4 cursor-pointer rounded-[50px] border border-black peer-checked:p-[1.5px] overflow-hidden peer-checked:bg-[var(--mainColor)] bg-clip-content ${dotClassName}`}
             ></label>
             <label
               className={`cursor-pointer pl-2 ${labelClassName}`}

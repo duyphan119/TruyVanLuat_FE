@@ -110,7 +110,7 @@ const Page = (props: Props) => {
                       register={register}
                       itemClassName="text-sm text-gray-500"
                       dotClassName="border-gray-500"
-                      labelClassName="peer-checked:text-indigo-500"
+                      labelClassName="peer-checked:text-[var(--mainColor)]"
                     />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ const Page = (props: Props) => {
                   id="phone"
                 />
               </div>
-              <div className="w-full flex items-center justify-between text-indigo-500">
+              <div className="w-full flex items-center justify-between text-[var(--mainColor)]">
                 <Link href="/" className="hover:underline">
                   Quên mật khẩu ?
                 </Link>

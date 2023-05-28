@@ -2,53 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --mainColor: #1e8ad2;
+}
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 html,
 body {
-    height: 100%;
-    min-height: 100%;
-    overflow-y: overlay;
+  height: 100%;
+  min-height: 100%;
+}
+
+.overflow-y-overlay {
+  overflow-y: overlay;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #4140406e;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #4140406e;
 }
 
-.infinite-scroll-component__outerdiv{
-    width: 100%;
+.infinite-scroll-component__outerdiv {
+  width: 100%;
 }
 
 p:target {
-    background-color: yellow;
+  background-color: yellow;
 }
 .three-dot {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .three-dot-2 {
-    -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2;
 }
 
 .three-dot-3 {
-    -webkit-line-clamp: 3;
+  -webkit-line-clamp: 3;
 }
 
 .three-dot-4 {
-    -webkit-line-clamp: 4;
+  -webkit-line-clamp: 4;
 }
 
 .three-dot-8 {
-    -webkit-line-clamp: 8;
+  -webkit-line-clamp: 8;
+}
+
+.bg-home {
+  background: linear-gradient(
+    136deg,
+    #a855f7,
+    #3b82f6,
+    #5b6ce7,
+    #6a65e7,
+    #4f46e5,
+    #8757e9,
+    #8b5cf6,
+    #6366f1,
+    #8e54e9
+  );
+  -moz-animation: BackgroundHome 20s ease infinite;
+  -webkit-animation: BackgroundHome 20s ease infinite;
+  animation: BackgroundHome 20s ease infinite;
+  background-size: 1600% 1600%;
+}
+
+@-webkit-keyframes BackgroundHome {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 93% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@-moz-keyframes BackgroundHome {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 93% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes BackgroundHome {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 93% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.group:hover .width-home {
+  width: 56px;
+  -moz-animation: WidthHome 0.5s ease;
+  -webkit-animation: WidthHome 0.5s ease;
+  animation: WidthHome 0.5s ease;
+}
+
+@keyframes WidthHome {
+  from {
+    width: 0;
+  }
+  to {
+    width: 56px;
+  }
 }

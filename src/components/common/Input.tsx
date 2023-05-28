@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, forwardRef, FocusEvent } from "react";
 import { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 import { IconType } from "react-icons/lib";
 
@@ -20,64 +20,70 @@ type Props = {
   inputClassName?: string;
   labelClassName?: string;
   className?: string;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
 };
-
-const Input = ({
-  id = "id",
-  label,
-  type,
-  disabled,
-  required,
-  register,
-  errors,
-  placeholder = " ",
-  size = "small",
-  value,
-  onChange,
-  startIcon: StartIcon,
-  endIcon: EndIcon,
-  direction = "horizontal",
-  className = "",
-  inputClassName = "",
-  labelClassName = "",
-}: Props) => {
-  const errorElement = () => {
-    if (errors && errors[id]) {
-      return (
-        <div className="text-red-500 text-xs ml-[1px]">
-          {errors[id]?.message?.toString()}
-        </div>
-      );
-    }
-    return null;
-  };
-  return (
-    <div
-      className={`w-full relative flex ${
-        direction === "vertical" ? "flex-col" : "items-center"
-      } gap-1 ${className}`}
-    >
-      {label ? (
-        <label htmlFor={id} className={`text-sm ${labelClassName}`}>
-          {label}
-          {required ? <span className="text-red-500 ml-1">*</span> : ""}
-        </label>
-      ) : null}
-      {StartIcon ? (
-        <StartIcon
-          size={size === "medium" ? 24 : 12}
-          className={`text-neutral-500 absolute ${
-            size === "medium" ? "top-5 left-3" : "top-3 left-3"
-          }`}
-        />
-      ) : null}
-      <input
-        id={id}
-        disabled={disabled}
-        {...register}
-        type={type}
-        placeholder={placeholder}
-        className={`
+const Input = forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      id = "id",
+      label,
+      type,
+      disabled,
+      required,
+      register,
+      errors,
+      placeholder = " ",
+      size = "small",
+      value,
+      onChange,
+      startIcon: StartIcon,
+      endIcon: EndIcon,
+      direction = "horizontal",
+      className = "",
+      inputClassName = "",
+      labelClassName = "",
+      onFocus,
+      onBlur,
+    },
+    ref
+  ) => {
+    const errorElement = () => {
+      if (errors && errors[id]) {
+        return (
+          <div className="text-red-500 text-xs ml-[1px]">
+            {errors[id]?.message?.toString()}
+          </div>
+        );
+      }
+      return null;
+    };
+    return (
+      <div
+        className={`w-full relative flex ${
+          direction === "vertical" ? "flex-col" : "items-center"
+        } gap-1 ${className}`}
+      >
+        {label ? (
+          <label htmlFor={id} className={`text-sm ${labelClassName}`}>
+            {label}
+            {required ? <span className="text-red-500 ml-1">*</span> : ""}
+          </label>
+        ) : null}
+        {StartIcon ? (
+          <StartIcon
+            size={size === "medium" ? 24 : 12}
+            className={`text-neutral-500 absolute ${
+              size === "medium" ? "top-5 left-3" : "top-3 left-3"
+            }`}
+          />
+        ) : null}
+        <input
+          id={id}
+          disabled={disabled}
+          type={type}
+          placeholder={placeholder}
+          className={`
           w-full
           font-light 
           bg-white 
@@ -92,13 +98,18 @@ const Input = ({
           ${StartIcon && size === "small" ? "pl-8" : ""}
           ${StartIcon && size === "medium" ? "pl-12" : ""}
           ${inputClassName}
-        `}
-        {...(value ? { value } : {})}
-        {...(onChange ? { onChange } : {})}
-      />
-      {errorElement()}
-    </div>
-  );
-};
+          `}
+          ref={ref}
+          value={value}
+          onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          {...register}
+        />
+        {errorElement()}
+      </div>
+    );
+  }
+);
 
 export default Input;

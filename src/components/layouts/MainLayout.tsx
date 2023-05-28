@@ -1,19 +1,25 @@
+import { HEADER_HEIGHT } from "@/utils/constants";
 import { ReactNode } from "react";
+import Footer from "../Footer";
 import Header from "../Header";
 
 type Props = {
   children?: ReactNode;
-  contentBackground?: string;
+  hideFooter?: boolean;
+  onlyChildren?: boolean;
 };
 
-const MainLayout = ({ children, contentBackground = "" }: Props) => {
+const MainLayout = ({ children, hideFooter = false, onlyChildren }: Props) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main
-        className={`flex-1 flex flex-col bg-[#fffefb] ${contentBackground} `}
-      >
-        {children}
+      <main>
+        {onlyChildren ? (
+          children
+        ) : (
+          <div style={{ marginTop: HEADER_HEIGHT }}>{children}</div>
+        )}
+        {hideFooter ? null : <Footer />}
       </main>
     </div>
   );

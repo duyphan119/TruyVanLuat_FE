@@ -3,7 +3,7 @@ import PaginationResponse from "@/types/response/PaginationResponse";
 import Violation from "@/types/violation/Violation";
 
 export type ViolationParams = {
-  group_violation_id?: string;
+  keyword?: string;
   page?: number;
   limit?: number;
   sort_by?: string;
