@@ -4,7 +4,12 @@ import Head from "next/head";
 import { Fragment } from "react";
 import NextNProgress from "nextjs-progressbar";
 import ScrollToTop from "@/components/ScrollToTop";
-
+import { Open_Sans } from "next/font/google";
+const openSans = Open_Sans({
+  weight: ["300", "400", "500", "600", "700", "800"],
+  style: ["italic", "normal"],
+  subsets: ["vietnamese"],
+});
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
@@ -19,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
         showOnShallow={true}
       />
       <ScrollToTop />
-      <Component {...pageProps} />
+      <div className={openSans.className}>
+        <Component {...pageProps} />
+      </div>
     </Fragment>
   );
 }

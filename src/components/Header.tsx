@@ -18,6 +18,11 @@ const items = [
     title: "Xem tất cả tin tức",
   },
   {
+    href: PUBLIC_ROUTES.TRAFFIC_SIGNS,
+    label: "Biển báo hiệu",
+    title: "Biến báo hiệu giao thông",
+  },
+  {
     href: PUBLIC_ROUTES.CHAT,
     label: "Trò chuyện",
     title: "Trò chuyện với Bot",

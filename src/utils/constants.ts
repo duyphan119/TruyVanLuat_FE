@@ -11,6 +11,7 @@ export const PUBLIC_ROUTES = {
   NEWS: "/tin-tuc",
   VANBAN: "/van-ban",
   SEARCH: "/tim-kiem",
+  TRAFFIC_SIGNS: "/bien-bao-hieu",
 };
 export const IS_NEXT_RESPONSE_EMPTY = {
   rows: [],

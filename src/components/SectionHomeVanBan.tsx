@@ -78,7 +78,11 @@ const SectionHomeVanBan = (props: Props) => {
         </div>
         <div className="text-center mt-10 h-[41.6px]">
           {vanbans.length > 0 ? (
-            <Button href={PUBLIC_ROUTES.VANBAN} title="Xem tất cả văn bản">
+            <Button
+              href={PUBLIC_ROUTES.VANBAN}
+              title="Xem tất cả văn bản"
+              newCss={true}
+            >
               Xem thêm
             </Button>
           ) : null}

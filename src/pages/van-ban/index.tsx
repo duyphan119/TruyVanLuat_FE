@@ -28,8 +28,6 @@ const Page = ({ data, p }: Props) => {
     router.push("?p=" + page);
   };
 
-  console.log(violationData);
-
   return (
     <Fragment>
       <Head>
@@ -49,14 +47,17 @@ const Page = ({ data, p }: Props) => {
               current="Tất cả văn bản"
               titleCenter={true}
             />
-            <p className="text-right w-full">Có {data.count} văn bản</p>
-            <Flex className="flex-col !gap-4 !items-start">
+            <p className="text-right w-full">
+              Có <b>{data.count}</b> văn bản
+            </p>
+            <div className="grid grid-cols-12 gap-10">
               {rows.map(({ title, slug, issue }) => {
                 return (
                   <Link
                     href={`${PUBLIC_ROUTES.VANBAN}/${slug}`}
                     key={slug}
                     title={title}
+                    className="col-span-6"
                   >
                     <p className="hover:text-[var(--mainColor)] font-medium three-dot three-dot-2">
                       {title}
@@ -68,15 +69,17 @@ const Page = ({ data, p }: Props) => {
                 );
               })}
               {count > 0 ? (
-                <Pagination
-                  className="w-full"
-                  listDotsClassName="justify-center"
-                  totalPages={total_pages}
-                  current={p}
-                  onPageChange={handlePageChange}
-                />
+                <div className="col-span-12">
+                  <Pagination
+                    className="w-full"
+                    listDotsClassName="justify-center"
+                    totalPages={total_pages}
+                    current={p}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
               ) : null}
-            </Flex>
+            </div>
           </Flex>
         </Container>
       </MainLayout>

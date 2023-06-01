@@ -16,8 +16,8 @@ const SectionHomeTopics = (props: Props) => {
           Tra cứu theo chủ đề
         </h2>
         <h3 className="text-xl text-center px-6 mb-40 font-thin w-[72%] mx-auto">
-          Khi bạn bị mắc kẹt trong một cái gì đó, đừng lãng phí thời gian của
-          bạn, hãy để chúng tôi biết chúng tôi ở đây để giúp bạn
+          Khi bạn bị mắc kẹt trong một vấn đề nào đó, đừng lãng phí thời gian
+          của bạn, hãy để chúng tôi biết, chúng tôi ở đây để giúp bạn
         </h3>
       </Container>
       <Container>

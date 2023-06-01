@@ -20,7 +20,7 @@ const Page = ({ vanban }: Props) => {
         <title>{title}</title>
       </Head>
       <MainLayout>
-        <Container>
+        <Container className="py-4">
           <Breadcrumbs
             titleCenter={true}
             current={
@@ -42,8 +42,8 @@ const Page = ({ vanban }: Props) => {
             ]}
           />
 
-          <div className="flex gap-4 my-4 items-stretch">
-            <div className="right flex-[3] p-2 border border-gray-300 rounded-sm">
+          <div className="flex gap-4 mt-10 items-stretch">
+            <div className="right flex-[3] p-2 md:p-0">
               <div
                 className="content"
                 dangerouslySetInnerHTML={{ __html: html }}

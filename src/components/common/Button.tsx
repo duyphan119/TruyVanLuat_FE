@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import styles from "@/components/styles/Button.module.css";
 
 type Props = {
   children?: ReactNode;
@@ -11,6 +12,7 @@ type Props = {
   onClick?: () => void;
   href?: string;
   title?: string;
+  newCss?: boolean;
 };
 
 const Button = ({
@@ -23,8 +25,9 @@ const Button = ({
   onClick,
   href,
   title,
+  newCss,
 }: Props) => {
-  const wrapperClassName = ` 
+  const wrapperClassName = `
         border
         cursor-pointer
         bg-[var(--mainColor)] border-[var(--mainColor)] hover:bg-white hover:text-[var(--mainColor)]
@@ -49,7 +52,9 @@ const Button = ({
     <button
       type={type}
       disabled={disabled}
-      className={wrapperClassName}
+      className={
+        newCss ? `${styles.button} ${className || ""}` : wrapperClassName
+      }
       onClick={onClick}
       title={title}
     >

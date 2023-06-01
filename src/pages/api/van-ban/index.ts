@@ -26,6 +26,8 @@ export default async function handler(
 
       const url = `https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=giao%20th%C3%B4ng%20%C4%91%C6%B0%E1%BB%9Dng%20b%E1%BB%99&area=1&type=0&status=0&lan=1&org=0&signer=0&match=False&sort=2&bdate=22/05/1943&&edate=${dayStr}/${monthStr}/${year}&page=${page}`;
 
+      console.log(url);
+
       const { data: html } = await axios.get(url);
       const $ = cheerio.load(html);
 
@@ -53,7 +55,9 @@ export default async function handler(
                 issue = splitText[splitText.length - 1];
               }
             });
-          vanbans.push({ title, slug, issue });
+          if ($(this).find(".nqContent").text() !== "") {
+            vanbans.push({ title, slug, issue });
+          }
         }
       });
       const count = +$("#lbTotal").text();

@@ -11,7 +11,7 @@ type Props = {
 
 const MainLayout = ({ children, hideFooter = false, onlyChildren }: Props) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex flex-col min-h-screen`}>
       <Header />
       <main>
         {onlyChildren ? (

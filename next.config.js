@@ -9,12 +9,16 @@ const nextConfig = {
       "cdn.baogiaothong.vn",
       "i1-vnexpress.vnecdn.net",
       "s1.vnecdn.net",
+      "upload.wikimedia.org",
     ],
   },
   env: {
     LAWS_API: process.env.LAWS_API,
     DATABASE_URL: process.env.DATABASE_URL,
     DATABASE_NAME: process.env.DATABASE_NAME,
+  },
+  experimental: {
+    scrollRestoration: true,
   },
 };
 

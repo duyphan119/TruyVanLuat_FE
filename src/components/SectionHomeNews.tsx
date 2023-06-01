@@ -65,6 +65,7 @@ const SectionHomeNews = (props: Props) => {
                         src={item.thumbnail || PLACEHOLDER_THUMBNAIL}
                         fill={true}
                         priority={true}
+                        sizes={"(max-width: 400px) 100vw"}
                       />
                     ) : null}
                   </div>
@@ -130,7 +131,11 @@ const SectionHomeNews = (props: Props) => {
           })}
         </div>
         <div className="text-center mt-10">
-          <Button href={PUBLIC_ROUTES.NEWS} title="Xem tất cả tin tức">
+          <Button
+            href={PUBLIC_ROUTES.NEWS}
+            title="Xem tất cả tin tức"
+            newCss={true}
+          >
             Xem thêm
           </Button>
         </div>
