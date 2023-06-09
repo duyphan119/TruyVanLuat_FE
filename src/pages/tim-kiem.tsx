@@ -1,4 +1,5 @@
 import violationApi from "@/api/violation.api";
+import AuthLogin from "@/components/auth/AuthLogin";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -26,6 +27,7 @@ const Search = (props: Props) => {
 
   const keyword = getString("keyword");
 
+  const [loading, setLoading] = useState<boolean>(keyword !== "");
   const [page, setPage] = useState<number>(1);
   const [searchData, setSearchData] = useState<PaginationResponse<Violation>>(
     PAGINATION_RESPONSE_EMPTY
@@ -38,7 +40,7 @@ const Search = (props: Props) => {
     isNext?: boolean
   ) => {
     try {
-      const data = await violationApi.getAll({ keyword: str, page: p, limit });
+      const data = await violationApi.search(str, p, limit);
       setSearchData({
         ...data,
         ...(isNext ? { rows: [...searchData.rows, ...data.rows] } : {}),
@@ -47,7 +49,10 @@ const Search = (props: Props) => {
   };
 
   useEffect(() => {
-    if (keyword !== "") fetchSearchResult(keyword, 1, DEFAULT_LIMIT);
+    if (keyword !== "")
+      fetchSearchResult(keyword, 1, DEFAULT_LIMIT).finally(() => {
+        setLoading(false);
+      });
   }, [keyword]);
 
   return (
@@ -55,61 +60,73 @@ const Search = (props: Props) => {
       <Head>
         <title>Kết quả tìm kiếm</title>
       </Head>
-      <MainLayout>
-        <Container className="py-2">
-          <Breadcrumbs
-            items={[
-              {
-                label: "Trang chủ",
-                href: PUBLIC_ROUTES.HOME,
-                hideSeperateAfter: true,
-              },
-            ]}
-            current="Tìm kiếm"
-            titleCenter={true}
-          />
-          <div className="">
-            {searchData.count} Kết quả tìm kiếm với từ khoá "{keyword}"
-          </div>
-          <Flex className="flex-col !items-start my-4">
-            <InfiniteScroll
-              dataLength={searchData.rows.length}
-              next={() => {
-                if (keyword !== "") {
-                  fetchSearchResult(keyword, page + 1, DEFAULT_LIMIT, true);
-                  setPage(page + 1);
-                }
-              }}
-              hasMore={page < searchData.total_pages}
-              className="flex flex-col gap-3"
-              loader={
-                <div className="overflow-hidden">
-                  <Loading />
-                </div>
-              }
-            >
-              {searchData.rows.map((row, index) => {
-                return (
-                  <Fragment key={row.id}>
-                    <Link
-                      href={`${PUBLIC_ROUTES.VIOLATIONS}/${row.id}`}
-                      className={`group`}
-                      title={row.content}
-                    >
-                      <p className="three-dot three-dot-3 text-sm font-medium group-hover:text-[var(--mainColor)]">
-                        {row.content}
-                      </p>
-                      <p className="three-dot three-dot-2 mt-1 text-[12px] text-rose-500">
-                        {row.punishment}
-                      </p>
-                    </Link>
-                  </Fragment>
-                );
-              })}
-            </InfiniteScroll>
-          </Flex>
-        </Container>
-      </MainLayout>
+      {loading ? (
+        <Loading fullScreen={true} />
+      ) : (
+        <AuthLogin>
+          <MainLayout>
+            <Container className="py-2">
+              <Breadcrumbs
+                items={[
+                  {
+                    label: "Trang chủ",
+                    href: PUBLIC_ROUTES.HOME,
+                    hideSeperateAfter: true,
+                  },
+                ]}
+                current="Tìm kiếm"
+                titleCenter={true}
+              />
+              <div className="">
+                {searchData.count} Kết quả tìm kiếm với từ khoá "{keyword}"
+              </div>
+              <Flex className="flex-col !items-start my-4">
+                <InfiniteScroll
+                  dataLength={searchData.rows.length}
+                  next={() => {
+                    if (keyword !== "") {
+                      fetchSearchResult(keyword, page + 1, DEFAULT_LIMIT, true);
+                      setPage(page + 1);
+                    }
+                  }}
+                  hasMore={page < searchData.total_pages}
+                  className="flex flex-col gap-3"
+                  loader={
+                    <div className="overflow-hidden">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  {searchData.rows.map((row, index) => {
+                    return (
+                      <Fragment key={row.id}>
+                        <Link
+                          href={`${PUBLIC_ROUTES.VIOLATIONS}/${row.id}`}
+                          className={`group border border-neutral-100 py-3 relative pr-3 pl-10 rounded-sm`}
+                          // title={row.content}
+                          title={row.legal.point.name}
+                        >
+                          <div className="group-hover:text-[var(--mainColor)] absolute top-3 left-3 text-sm">
+                            {index + 1}.
+                          </div>
+                          <p className="three-dot three-dot-3 text-sm font-medium group-hover:text-[var(--mainColor)]">
+                            {/* {row.content} */}
+                            {row.legal.point.name}
+                          </p>
+                          <p className="three-dot three-dot-2 mt-1 text-[12px] text-rose-500">
+                            {/* {row.punishment} */}
+                            {row.fine}
+                          </p>
+                        </Link>
+                      </Fragment>
+                    );
+                  })}
+                </InfiniteScroll>
+              </Flex>
+            </Container>
+          </MainLayout>
+        </AuthLogin>
+      )}
     </Fragment>
   );
 };

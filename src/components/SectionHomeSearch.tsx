@@ -33,6 +33,7 @@ const SectionHomeSearch = (props: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [keyword, setKeyword] = useState<string>("");
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const [searchData, setSearchData] = useState<PaginationResponse<Violation>>(
     PAGINATION_RESPONSE_EMPTY
@@ -42,10 +43,7 @@ const SectionHomeSearch = (props: Props) => {
     try {
       if (keyword === "") setSearchData(PAGINATION_RESPONSE_EMPTY);
       else {
-        const data = await violationApi.getAll({
-          keyword,
-          limit: DEFAULT_LIMIT,
-        });
+        const data = await violationApi.search(keyword, 1, DEFAULT_LIMIT);
         if (data.count > 0) {
           setIsComponentVisible(true);
         }
@@ -62,7 +60,7 @@ const SectionHomeSearch = (props: Props) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`${PUBLIC_ROUTES.SEARCH}?keyword=${keyword}`);
+    setIsSubmitted(true);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,12 +68,20 @@ const SectionHomeSearch = (props: Props) => {
   };
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      fetchSearch();
-    }, 555);
+    if (isSubmitted) {
+      router.push(`${PUBLIC_ROUTES.SEARCH}?keyword=${keyword}`);
+    }
+  }, [isSubmitted]);
 
-    return () => clearTimeout(timerId);
-  }, [keyword]);
+  useEffect(() => {
+    if (!isSubmitted) {
+      const timerId = setTimeout(() => {
+        fetchSearch();
+      }, 555);
+
+      return () => clearTimeout(timerId);
+    }
+  }, [isSubmitted, keyword]);
 
   return (
     <section className="section-search w-full h-[560px] bg-home relative text-white">
@@ -115,13 +121,16 @@ const SectionHomeSearch = (props: Props) => {
                         index > 0 ? " border-t border-t-neutral-500 pt-2" : ""
                       }`}
                       key={row.id}
-                      title={row.content}
+                      // title={row.content}
+                      title={row.legal.point.name}
                     >
                       <p className="three-dot three-dot-2 text-sm font-medium group-hover:text-[var(--mainColor)]">
-                        {row.content}
+                        {/* {row.content} */}
+                        {row.legal.point.name}
                       </p>
                       <p className="mt-1 text-[12px] text-rose-500">
-                        {row.punishment}
+                        {/* {row.punishment} */}
+                        {row.fine}
                       </p>
                     </Link>
                   );

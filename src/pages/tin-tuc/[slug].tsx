@@ -1,4 +1,5 @@
 import newsApi from "@/api/news.api";
+import AuthLogin from "@/components/auth/AuthLogin";
 import Container from "@/components/common/Container";
 import MainLayout from "@/components/layouts/MainLayout";
 import News from "@/types/news/News";
@@ -18,43 +19,45 @@ const Page = ({ news }: Props) => {
       <Head>
         <title>{news.title}</title>
       </Head>
-      <MainLayout>
-        <Container>
-          <article>
-            <h1 className="font-bold text-3xl">{news.title}</h1>
-            <div className="text-gray-500 text-sm mt-2">{news.createdAt}</div>
-            <p className="mt-2">{news.description}</p>
-            <div className="mt-2">
-              {news.paragraphs?.map((paragraph, index) => {
-                const isLast = index + 1 === news.paragraphs?.length;
-                return paragraph.type === "image" ? (
-                  <div key={paragraph.index}>
-                    <div className="relative h-0 pb-[55%] mt-2">
-                      <Image
-                        src={paragraph.src}
-                        alt=""
-                        priority={true}
-                        fill={true}
-                        sizes="(max-width: 1200px) 100vw"
-                      />
+      <AuthLogin>
+        <MainLayout>
+          <Container className="py-4">
+            <article>
+              <h1 className="font-bold text-3xl">{news.title}</h1>
+              <div className="text-gray-500 text-sm mt-2">{news.createdAt}</div>
+              <p className="mt-2">{news.description}</p>
+              <div className="mt-2">
+                {news.paragraphs?.map((paragraph, index) => {
+                  const isLast = index + 1 === news.paragraphs?.length;
+                  return paragraph.type === "image" ? (
+                    <div key={paragraph.index}>
+                      <div className="relative h-0 pb-[55%] mt-2">
+                        <Image
+                          src={paragraph.src}
+                          alt=""
+                          priority={true}
+                          fill={true}
+                          sizes="(max-width: 1200px) 100vw"
+                        />
+                      </div>
+                      <p className="mt-2">{paragraph.description}</p>
                     </div>
-                    <p className="mt-2">{paragraph.description}</p>
-                  </div>
-                ) : (
-                  <p
-                    key={paragraph.index}
-                    className={`mt-4${
-                      isLast ? " text-right font-bold text-lg" : ""
-                    } `}
-                  >
-                    {paragraph.text}
-                  </p>
-                );
-              })}
-            </div>
-          </article>
-        </Container>
-      </MainLayout>
+                  ) : (
+                    <p
+                      key={paragraph.index}
+                      className={`mt-4${
+                        isLast ? " text-right font-bold text-lg" : ""
+                      } `}
+                    >
+                      {paragraph.text}
+                    </p>
+                  );
+                })}
+              </div>
+            </article>
+          </Container>
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 };

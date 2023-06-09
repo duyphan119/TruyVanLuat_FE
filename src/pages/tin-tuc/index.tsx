@@ -1,4 +1,5 @@
 import newsApi from "@/api/news.api";
+import AuthLogin from "@/components/auth/AuthLogin";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -42,69 +43,74 @@ const Page = ({ data }: Props) => {
       <Head>
         <title>Tất cả tin tức</title>
       </Head>
-      <MainLayout>
-        <Container className="py-2">
-          <Flex className="flex-col !items-start mt-2">
-            <Breadcrumbs
-              titleCenter={true}
-              items={[
-                {
-                  label: "Trang chủ",
-                  href: PUBLIC_ROUTES.HOME,
-                  hideSeperateAfter: true,
-                },
-              ]}
-              current="Tất cả tin tức"
-            />
-            <InfiniteScroll
-              dataLength={newsData.rows.length}
-              next={() => {
-                fetchNewsData(page + 1, DEFAULT_LIMIT);
-                setPage(page + 1);
-              }}
-              hasMore={newsData.isNext}
-              className="flex flex-col gap-4 bg-white"
-              loader={
-                <div className="overflow-hidden">
-                  <Loading />
-                </div>
-              }
-            >
-              {newsData.rows.map((row, index) => {
-                return (
-                  <article key={row.slug} className="border border-neutral-200">
-                    <Link
-                      href={`${PUBLIC_ROUTES.NEWS}/${row.slug}`}
-                      className={`group block`}
-                      title={row.title}
-                    >
-                      <Flex className="!items-start">
-                        <div className="relative w-[200px] pb-[10%]">
-                          <Image
-                            alt="thumbnail news"
-                            src={row.thumbnail || PLACEHOLDER_THUMBNAIL}
-                            priority={true}
-                            sizes="(max-width: 500px) 100vw"
-                            fill={true}
-                          />
-                        </div>
-                        <div className="w-2/3">
-                          <p className="font-medium group-hover:text-[var(--mainColor)]">
-                            {row.title}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {row.description}
-                          </p>
-                        </div>
-                      </Flex>
-                    </Link>
-                  </article>
-                );
-              })}
-            </InfiniteScroll>
-          </Flex>
-        </Container>
-      </MainLayout>
+      <AuthLogin>
+        <MainLayout>
+          <Container className="py-4">
+            <Flex className="flex-col !items-start mt-2">
+              <Breadcrumbs
+                titleCenter={true}
+                items={[
+                  {
+                    label: "Trang chủ",
+                    href: PUBLIC_ROUTES.HOME,
+                    hideSeperateAfter: true,
+                  },
+                ]}
+                current="Tất cả tin tức"
+              />
+              <InfiniteScroll
+                dataLength={newsData.rows.length}
+                next={() => {
+                  fetchNewsData(page + 1, DEFAULT_LIMIT);
+                  setPage(page + 1);
+                }}
+                hasMore={newsData.isNext}
+                className="flex flex-col gap-6 bg-white"
+                loader={
+                  <div className="overflow-hidden">
+                    <Loading />
+                  </div>
+                }
+              >
+                {newsData.rows.map((row, index) => {
+                  return (
+                    <Fragment key={row.slug}>
+                      {index > 0 ? <hr /> : null}
+                      <article className="">
+                        <Link
+                          href={`${PUBLIC_ROUTES.NEWS}/${row.slug}`}
+                          className={`group block`}
+                          title={row.title}
+                        >
+                          <Flex className="!items-start">
+                            <div className="relative w-[200px] pb-[10%]">
+                              <Image
+                                alt="thumbnail news"
+                                src={row.thumbnail || PLACEHOLDER_THUMBNAIL}
+                                priority={true}
+                                sizes="(max-width: 500px) 100vw"
+                                fill={true}
+                              />
+                            </div>
+                            <div className="w-2/3">
+                              <p className="font-medium group-hover:text-[var(--mainColor)]">
+                                {row.title}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {row.description}
+                              </p>
+                            </div>
+                          </Flex>
+                        </Link>
+                      </article>
+                    </Fragment>
+                  );
+                })}
+              </InfiniteScroll>
+            </Flex>
+          </Container>
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 };

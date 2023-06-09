@@ -7,7 +7,7 @@ type Props = {
   disabled?: boolean;
   className?: string;
   type?: "submit" | "button";
-  color?: "primary" | "error";
+  color?: "primary" | "error" | "default";
   variant?: "contained" | "outlined";
   onClick?: () => void;
   href?: string;
@@ -36,6 +36,11 @@ const Button = ({
             ? "bg-rose-500 border-rose-500 hover:bg-white hover:text-rose-500"
             : ""
         }
+         ${
+           color === "default"
+             ? "bg-neutral-500 border-neutral-500 hover:bg-white hover:text-neutral-500"
+             : ""
+         }
         ${
           variant === "outlined"
             ? `bg-transparent ${

@@ -12,7 +12,18 @@ export const PUBLIC_ROUTES = {
   VANBAN: "/van-ban",
   SEARCH: "/tim-kiem",
   TRAFFIC_SIGNS: "/bien-bao-hieu",
+  LOGIN: "/dang-nhap",
+  REGISTER: "/dang-ky",
 };
+
+export const PROTECTED_ROUTES = {
+  DASHBOARD: "/admin",
+  GROUP_TRAFFIC_SIGNS: "/admin/nhom-bien-bao-giao-thong",
+  TRAFFIC_SIGNS: "/admin/bien-bao-giao-thong",
+  PROFILE: "/admin/thong-tin-tai-khoan",
+  VIOLATIONS: "/admin/xu-phat-giao-thong",
+};
+
 export const IS_NEXT_RESPONSE_EMPTY = {
   rows: [],
   isNext: false,
@@ -30,3 +41,7 @@ export const HOME_PAGE = {
 };
 export const PLACEHOLDER_THUMBNAIL = "/images/placeholder-thumbnail.jfif";
 export const HEADER_HEIGHT = 80;
+export const DASHBOARD = {
+  SIDEBAR_WIDTH: 286,
+  HEADER_HEIGHT: 80,
+};

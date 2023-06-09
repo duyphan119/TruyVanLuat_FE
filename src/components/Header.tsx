@@ -1,7 +1,8 @@
 import { PUBLIC_ROUTES } from "@/utils/constants";
+import useUserStore from "@/zustand/userStore";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, Fragment } from "react";
 import Container from "./common/Container";
 
 type Props = {};
@@ -30,11 +31,21 @@ const items = [
 ];
 
 const Header = (props: Props) => {
+  const router = useRouter();
+
+  const { profile, logout } = useUserStore();
+
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const pathname = usePathname();
 
   const isAtHomePage = pathname === PUBLIC_ROUTES.HOME;
+
+  const handleLogout = () => {
+    logout().then((res) => {
+      router.push(PUBLIC_ROUTES.LOGIN);
+    });
+  };
 
   useEffect(() => {
     const handleScroll = (e: Event) => {
@@ -76,25 +87,60 @@ const Header = (props: Props) => {
             <span className="font-semibold">GIAO</span>
             <span className="font-medium">THONG</span>
           </Link>
-          <ul className="flex items-center gap-8 h-full">
-            {items.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <li className={`h-full`} key={item.label} title={item.title}>
-                  <Link
-                    href={item.href}
-                    className={`h-full relative flex items-center hover:before:absolute hover:before:bottom-1/4 hover:before:left-1/2 hover:before:-translate-x-1/2 hover:before:w-1/3 hover:before:h-[2px] hover:before:bg-white ${
-                      isActive
-                        ? " before:absolute before:bottom-1/4 before:left-1/2 before:-translate-x-1/2 before:w-1/3 before:h-[2px] before:bg-white"
-                        : ""
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex items-center gap-8 h-full">
+            <ul className="flex items-center gap-8 h-full">
+              {items.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li className={`h-full`} key={item.label} title={item.title}>
+                    <Link
+                      href={item.href}
+                      className={`h-full relative flex items-center hover:before:absolute hover:before:bottom-1/4 hover:before:left-1/2 hover:before:-translate-x-1/2 hover:before:w-1/3 hover:before:h-[2px] hover:before:bg-white ${
+                        isActive
+                          ? " before:absolute before:bottom-1/4 before:left-1/2 before:-translate-x-1/2 before:w-1/3 before:h-[2px] before:bg-white"
+                          : ""
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="flex items-center gap-1">
+              {profile ? (
+                <Fragment>
+                  <li className="" title="Đăng xuất">
+                    <button
+                      className={`outline-none uppercase bg-blue-500 py-2 px-3 text-sm rounded-md hover:bg-white hover:text-blue-500`}
+                      onClick={handleLogout}
+                    >
+                      Đăng xuất
+                    </button>
+                  </li>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <li className="" title="Đăng nhập">
+                    <Link
+                      href={PUBLIC_ROUTES.LOGIN}
+                      className={`uppercase bg-blue-500 py-2 px-3 text-sm rounded-md hover:bg-white hover:text-blue-500`}
+                    >
+                      Đăng nhập
+                    </Link>
+                  </li>
+                  <li className="" title="Đăng ký">
+                    <Link
+                      href={PUBLIC_ROUTES.REGISTER}
+                      className={`uppercase bg-blue-500 py-2 px-3 text-sm rounded-md hover:bg-white hover:text-blue-500`}
+                    >
+                      Đăng ký
+                    </Link>
+                  </li>
+                </Fragment>
+              )}
+            </ul>
+          </div>
         </nav>
       </Container>
     </header>

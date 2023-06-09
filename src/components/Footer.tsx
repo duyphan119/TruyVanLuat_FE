@@ -59,6 +59,10 @@ const Footer = (props: Props) => {
                   href: PUBLIC_ROUTES.NEWS,
                 },
                 {
+                  title: "Biển báo hiệu",
+                  href: PUBLIC_ROUTES.TRAFFIC_SIGNS,
+                },
+                {
                   title: "Trò chuyện",
                   href: PUBLIC_ROUTES.CHAT,
                 },

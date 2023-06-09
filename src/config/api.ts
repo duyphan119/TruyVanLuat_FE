@@ -36,6 +36,7 @@ class API {
   constructor(baseURL?: string, bearerToken?: string) {
     this.instance = axios.create({
       baseURL: baseURL || "http://localhost:3000/api",
+      withCredentials: true,
       ...(bearerToken
         ? {
             headers: {
@@ -53,18 +54,18 @@ class API {
     return data;
   }
 
-  async post(path: string, body: any) {
+  async post(path: string, body?: any) {
     const { data } = await this.instance.post(path, body);
     return data;
   }
 
-  async patch(path: string, body: any) {
+  async patch(path: string, body?: any) {
     const { data } = await this.instance.patch(path, body);
     return data;
   }
 
-  async delete(path: string, body: any) {
-    const { data } = await this.instance.delete(path, body);
+  async delete(path: string) {
+    const { data } = await this.instance.delete(path);
     return data;
   }
 }

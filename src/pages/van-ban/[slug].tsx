@@ -7,6 +7,7 @@ import vanbanApi from "@/api/vanban.api";
 import VanBan from "@/types/vanban/VanBan";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { PUBLIC_ROUTES } from "@/utils/constants";
+import AuthLogin from "@/components/auth/AuthLogin";
 
 type Props = {
   vanban: VanBan;
@@ -19,39 +20,41 @@ const Page = ({ vanban }: Props) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <MainLayout>
-        <Container className="py-4">
-          <Breadcrumbs
-            titleCenter={true}
-            current={
-              <>
-                <div className="text-center font-bold text-lg">{type}</div>
-                <div className="text-center text-lg">{title}</div>
-              </>
-            }
-            items={[
-              {
-                href: PUBLIC_ROUTES.HOME,
-                label: "Trang chủ",
-              },
-              {
-                href: PUBLIC_ROUTES.VANBAN,
-                label: "Văn bản",
-                hideSeperateAfter: true,
-              },
-            ]}
-          />
+      <AuthLogin>
+        <MainLayout>
+          <Container className="py-4">
+            <Breadcrumbs
+              titleCenter={true}
+              current={
+                <>
+                  <div className="text-center font-bold text-lg">{type}</div>
+                  <div className="text-center text-lg">{title}</div>
+                </>
+              }
+              items={[
+                {
+                  href: PUBLIC_ROUTES.HOME,
+                  label: "Trang chủ",
+                },
+                {
+                  href: PUBLIC_ROUTES.VANBAN,
+                  label: "Văn bản",
+                  hideSeperateAfter: true,
+                },
+              ]}
+            />
 
-          <div className="flex gap-4 mt-10 items-stretch">
-            <div className="right flex-[3] p-2 md:p-0">
-              <div
-                className="content"
-                dangerouslySetInnerHTML={{ __html: html }}
-              ></div>
+            <div className="flex gap-4 mt-10 items-stretch">
+              <div className="right flex-[3] p-2 md:p-0">
+                <div
+                  className="content"
+                  dangerouslySetInnerHTML={{ __html: html }}
+                ></div>
+              </div>
             </div>
-          </div>
-        </Container>
-      </MainLayout>
+          </Container>
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 };

@@ -1,13 +1,10 @@
 import violationApi from "@/api/violation.api";
+import AuthLogin from "@/components/auth/AuthLogin";
 import Container from "@/components/common/Container";
-import Flex from "@/components/common/Flex";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
 import Violation from "@/types/violation/Violation";
-
-import { generateHref, generateHrefId } from "@/utils/helpers";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
@@ -36,13 +33,33 @@ const Page = (props: Props) => {
   }, [id]);
   if (loading) return <Loading fullScreen={true} />;
   if (!data) return <Fragment>Not found</Fragment>;
+  console.log(data);
   return (
     <Fragment>
       <Head>
         <title>Thông tin vi phạm</title>
       </Head>
-      <MainLayout>
-        {/* <div className="violation-detail">
+      <AuthLogin>
+        <MainLayout>
+          <Container className="py-4">
+            <p className="text-center font-bold">{data.legal.name}</p>
+            <p className="uppercase">
+              Chương {data.legal.chapter.num}. {data.legal.chapter.name}
+            </p>
+            <p className="uppercase">
+              Mục {data.legal.section.num}. {data.legal.section.name}
+            </p>
+            <p className="">
+              Điều {data.legal.article.num}. {data.legal.article.name}
+            </p>
+            <p className="">
+              {data.legal.clause.num}. {data.legal.clause.name}
+            </p>
+            <p className="">
+              {data.legal.point.num}. {data.legal.point.name}
+            </p>
+          </Container>
+          {/* <div className="violation-detail">
           <Container>
             <div className="">Đối tượng: {data.apply_for}</div>
             <div className="font-bold mt-2 text-lg">{data.content}</div>
@@ -205,7 +222,8 @@ const Page = (props: Props) => {
             ) : null}
           </Container>
         </div> */}
-      </MainLayout>
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 };

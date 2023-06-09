@@ -10,6 +10,7 @@ const nextConfig = {
       "i1-vnexpress.vnecdn.net",
       "s1.vnecdn.net",
       "upload.wikimedia.org",
+      "upcdn.io",
     ],
   },
   env: {

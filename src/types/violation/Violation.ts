@@ -13,21 +13,48 @@ type Violation = {
   // solution?: string;
   // solution_detail?: string;
   // updated_solution_detail?: string;
+
   id: string;
-  content: string;
-  punishment: string;
-  detail: string;
+  // content: string;
+  // punishment: string;
+  // detail: string;
   violator: string;
-  solutions: Array<{
-    id: string;
-    content: string;
-    detail: string;
-  }>;
-  addition_punishments: Array<{
-    id: string;
-    content: string;
-    detail: string;
-  }>;
+  // solutions: Array<{
+  //   id: string;
+  //   content: string;
+  //   detail: string;
+  // }>;
+  // addition_punishments: Array<{
+  //   id: string;
+  //   content: string;
+  //   detail: string;
+  // }>;
+
+  fine: string;
+  legal: {
+    name: string;
+    num: string;
+    chapter: {
+      name: string;
+      num: string;
+    };
+    section: {
+      name: string;
+      num: string;
+    };
+    article: {
+      name: string;
+      num: string;
+    };
+    clause: {
+      name: string;
+      num: string;
+    };
+    point: {
+      name: string;
+      num: string;
+    };
+  };
 };
 
 export default Violation;

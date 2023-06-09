@@ -13,11 +13,11 @@ const Pagination = ({
   totalPages,
   current,
   onPageChange,
-  className,
+  className = "",
   listDotsClassName,
 }: Props) => {
   const disabledPrevious = current === 1;
-  const disabledNext = current !== 1 && current === totalPages;
+  const disabledNext = current === totalPages;
   const hasTwoLast = current + 2 <= totalPages;
   const hasTwoFirst = current - 2 >= 1;
   const hasNext = current + 1 <= totalPages;
@@ -57,7 +57,7 @@ const Pagination = ({
 
         <li
           aria-current="page"
-          className="relative block rounded bg-[var(--mainColor)] px-3 py-1.5 text-sm font-medium text-white shadow-lg transition-all duration-300 cursor-pointer border border-[var(--mainColor)]"
+          className="relative block rounded bg-[var(--mainColor)] px-3 py-1.5 text-sm font-medium text-white shadow-lg transition-all duration-300 border border-[var(--mainColor)]"
         >
           {current}
           <span className="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">

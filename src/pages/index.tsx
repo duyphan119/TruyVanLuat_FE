@@ -1,43 +1,12 @@
-import groupViolationApi from "@/api/groupViolation.api";
-import newsApi from "@/api/news.api";
-import violationApi from "@/api/violation.api";
-import Button from "@/components/common/Button";
-import Container from "@/components/common/Container";
-import Flex from "@/components/common/Flex";
-import Input from "@/components/common/Input";
-import Loading from "@/components/common/Loading";
-import Select from "@/components/common/Select";
-import InfringeModal from "@/components/InfringeModal";
+import AuthLogin from "@/components/auth/AuthLogin";
 import MainLayout from "@/components/layouts/MainLayout";
 import SectionHomeNews from "@/components/SectionHomeNews";
-import SectionHomeVanBan from "@/components/SectionHomeVanBan";
-import API from "@/config/api";
-import useComponentVisible from "@/hooks/useComponentVisible";
-import useQueryString from "@/hooks/useQueryString";
-import Infringe from "@/types/infringe/Infringe";
-import News from "@/types/news/News";
-import PaginationResponse from "@/types/response/PaginationResponse";
-import Violation from "@/types/violation/Violation";
-import {
-  DEFAULT_LIMIT,
-  PAGINATION_RESPONSE_EMPTY,
-  PUBLIC_ROUTES,
-} from "@/utils/constants";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { FaSearch } from "react-icons/fa";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Page from "./tro-chuyen";
-import { GrFormNextLink } from "react-icons/gr";
-import { BsNewspaper } from "react-icons/bs";
-import { RiQuestionnaireLine } from "react-icons/ri";
-import { VscLaw } from "react-icons/vsc";
 import SectionHomeSearch from "@/components/SectionHomeSearch";
 import SectionHomeTopics from "@/components/SectionHomeTopics";
+import SectionHomeVanBan from "@/components/SectionHomeVanBan";
+import Infringe from "@/types/infringe/Infringe";
+import Head from "next/head";
+import { Fragment } from "react";
 
 type Result = {
   rows: Infringe[];
@@ -95,12 +64,14 @@ export default function Home() {
       <Head>
         <title>Trang chủ</title>
       </Head>
-      <MainLayout onlyChildren={true}>
-        <SectionHomeSearch />
-        <SectionHomeTopics />
-        <SectionHomeVanBan />
-        <SectionHomeNews />
-      </MainLayout>
+      <AuthLogin>
+        <MainLayout onlyChildren={true}>
+          <SectionHomeSearch />
+          <SectionHomeTopics />
+          <SectionHomeVanBan />
+          <SectionHomeNews />
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 }

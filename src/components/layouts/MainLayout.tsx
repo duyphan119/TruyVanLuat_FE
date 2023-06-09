@@ -7,9 +7,15 @@ type Props = {
   children?: ReactNode;
   hideFooter?: boolean;
   onlyChildren?: boolean;
+  contentClassName?: string;
 };
 
-const MainLayout = ({ children, hideFooter = false, onlyChildren }: Props) => {
+const MainLayout = ({
+  children,
+  hideFooter = false,
+  onlyChildren,
+  contentClassName = "",
+}: Props) => {
   return (
     <div className={`flex flex-col min-h-screen`}>
       <Header />
@@ -17,7 +23,19 @@ const MainLayout = ({ children, hideFooter = false, onlyChildren }: Props) => {
         {onlyChildren ? (
           children
         ) : (
-          <div style={{ marginTop: HEADER_HEIGHT }}>{children}</div>
+          <div
+            className={contentClassName}
+            style={{
+              paddingTop: HEADER_HEIGHT,
+              ...(hideFooter
+                ? {}
+                : {
+                    minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
+                  }),
+            }}
+          >
+            {children}
+          </div>
         )}
         {hideFooter ? null : <Footer />}
       </main>

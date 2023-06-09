@@ -1,4 +1,5 @@
 import vanbanApi from "@/api/vanban.api";
+import AuthLogin from "@/components/auth/AuthLogin";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -33,56 +34,58 @@ const Page = ({ data, p }: Props) => {
       <Head>
         <title>Tất cả văn bản</title>
       </Head>
-      <MainLayout>
-        <Container className="py-4">
-          <Flex className="flex-col !gap-4 !items-start">
-            <Breadcrumbs
-              items={[
-                {
-                  href: PUBLIC_ROUTES.HOME,
-                  label: "Trang chủ",
-                  hideSeperateAfter: true,
-                },
-              ]}
-              current="Tất cả văn bản"
-              titleCenter={true}
-            />
-            <p className="text-right w-full">
-              Có <b>{data.count}</b> văn bản
-            </p>
-            <div className="grid grid-cols-12 gap-10">
-              {rows.map(({ title, slug, issue }) => {
-                return (
-                  <Link
-                    href={`${PUBLIC_ROUTES.VANBAN}/${slug}`}
-                    key={slug}
-                    title={title}
-                    className="col-span-6"
-                  >
-                    <p className="hover:text-[var(--mainColor)] font-medium three-dot three-dot-2">
-                      {title}
-                    </p>
-                    <p className="text-sm mt-1 inline-block text-gray-500">
-                      Ban hành: {issue}
-                    </p>
-                  </Link>
-                );
-              })}
-              {count > 0 ? (
-                <div className="col-span-12">
-                  <Pagination
-                    className="w-full"
-                    listDotsClassName="justify-center"
-                    totalPages={total_pages}
-                    current={p}
-                    onPageChange={handlePageChange}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </Flex>
-        </Container>
-      </MainLayout>
+      <AuthLogin>
+        <MainLayout>
+          <Container className="py-4">
+            <Flex className="flex-col !gap-4 !items-start">
+              <Breadcrumbs
+                items={[
+                  {
+                    href: PUBLIC_ROUTES.HOME,
+                    label: "Trang chủ",
+                    hideSeperateAfter: true,
+                  },
+                ]}
+                current="Tất cả văn bản"
+                titleCenter={true}
+              />
+              <p className="text-right w-full">
+                Có <b>{data.count}</b> văn bản
+              </p>
+              <div className="grid grid-cols-12 gap-10">
+                {rows.map(({ title, slug, issue }) => {
+                  return (
+                    <Link
+                      href={`${PUBLIC_ROUTES.VANBAN}/${slug}`}
+                      key={slug}
+                      title={title}
+                      className="col-span-6"
+                    >
+                      <p className="hover:text-[var(--mainColor)] font-medium three-dot three-dot-2">
+                        {title}
+                      </p>
+                      <p className="text-sm mt-1 inline-block text-gray-500">
+                        Ban hành: {issue}
+                      </p>
+                    </Link>
+                  );
+                })}
+                {count > 0 ? (
+                  <div className="col-span-12">
+                    <Pagination
+                      className="w-full"
+                      listDotsClassName="justify-center"
+                      totalPages={total_pages}
+                      current={p}
+                      onPageChange={handlePageChange}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            </Flex>
+          </Container>
+        </MainLayout>
+      </AuthLogin>
     </Fragment>
   );
 };
