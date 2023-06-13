@@ -23,10 +23,7 @@ const AdminLayout = ({ children }: Props) => {
           marginLeft: sidebarOpen ? DASHBOARD.SIDEBAR_WIDTH : 0,
         }}
       >
-        <AdminHeader
-          sidebarOpen={sidebarOpen}
-          onToggleSidebar={handleToggleSidebar}
-        />
+        <AdminHeader onToggleSidebar={handleToggleSidebar} />
         <main className="p-6 bg-[#f6f6f6] flex-1">
           <div className="h-full">{children}</div>
         </main>

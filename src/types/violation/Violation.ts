@@ -31,30 +31,33 @@ type Violation = {
   // }>;
 
   fine: string;
-  legal: {
-    name: string;
-    num: string;
-    chapter: {
-      name: string;
-      num: string;
-    };
-    section: {
-      name: string;
-      num: string;
-    };
-    article: {
-      name: string;
-      num: string;
-    };
-    clause: {
-      name: string;
-      num: string;
-    };
-    point: {
-      name: string;
-      num: string;
-    };
-  };
+  // legal: {
+  //   name: string;
+  //   num: string;
+  //   chapter: {
+  //     name: string;
+  //     num: string;
+  //   };
+  //   section: {
+  //     name: string;
+  //     num: string;
+  //   };
+  //   article: {
+  //     name: string;
+  //     num: string;
+  //   };
+  //   clause: {
+  //     name: string;
+  //     num: string;
+  //   };
+  //   point: {
+  //     name: string;
+  //     num: string;
+  //   };
+  // };
+
+  name: string;
+  legal: string;
 };
 
 export default Violation;

@@ -7,7 +7,7 @@ import vanbanApi from "@/api/vanban.api";
 import VanBan from "@/types/vanban/VanBan";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { PUBLIC_ROUTES } from "@/utils/constants";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 
 type Props = {
   vanban: VanBan;
@@ -20,7 +20,7 @@ const Page = ({ vanban }: Props) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
             <Breadcrumbs
@@ -39,7 +39,7 @@ const Page = ({ vanban }: Props) => {
                 {
                   href: PUBLIC_ROUTES.VANBAN,
                   label: "Văn bản",
-                  hideSeperateAfter: true,
+                  hideSeparateAfter: true,
                 },
               ]}
             />
@@ -54,7 +54,7 @@ const Page = ({ vanban }: Props) => {
             </div>
           </Container>
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 };

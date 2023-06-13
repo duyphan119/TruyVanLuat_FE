@@ -2,24 +2,31 @@ import Image from "next/image";
 import React from "react";
 import moment from "moment";
 import Message from "@/types/message/Message";
+import useUserStore from "@/zustand/userStore";
 
 type Props = {
   message: Message;
 };
 
 const MessageItem = ({ message }: Props) => {
+  const { profile } = useUserStore();
   return (
     <div className="">
       <div
         className={`flex gap-2 ${
-          message.isUser ? "ml-auto text-right flex-row-reverse" : ""
+          message.user_id ? "ml-auto text-right flex-row-reverse" : ""
         }`}
       >
-        <div className="">
+        <div
+          className=""
+          title={
+            message.user_id ? (profile ? profile.full_name : "User") : "Bot"
+          }
+        >
           <Image
             alt="avatar"
             src={`/images/${
-              message.isUser ? "placeholder.jpg" : "bot-icon.png"
+              message.user_id ? "placeholder.jpg" : "bot-icon.png"
             }`}
             width={40}
             height={40}
@@ -29,7 +36,7 @@ const MessageItem = ({ message }: Props) => {
         </div>
         <div className="flex-1">
           <div className="text-[12px] mb-1">
-            {moment(message.createdAt).format("MM/DD/YYYY h:mm:ss A")}
+            {moment(message.created_at).format("MM/DD/YYYY h:mm:ss A")}
           </div>
           <div
             className="p-2 px-3 bg-neutral-200 rounded-lg inline-block font-light"

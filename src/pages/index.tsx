@@ -1,4 +1,4 @@
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import MainLayout from "@/components/layouts/MainLayout";
 import SectionHomeNews from "@/components/SectionHomeNews";
 import SectionHomeSearch from "@/components/SectionHomeSearch";
@@ -64,14 +64,14 @@ export default function Home() {
       <Head>
         <title>Trang chủ</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout onlyChildren={true}>
           <SectionHomeSearch />
           <SectionHomeTopics />
           <SectionHomeVanBan />
           <SectionHomeNews />
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 }

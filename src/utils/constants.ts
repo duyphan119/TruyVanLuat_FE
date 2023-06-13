@@ -22,6 +22,7 @@ export const PROTECTED_ROUTES = {
   TRAFFIC_SIGNS: "/admin/bien-bao-giao-thong",
   PROFILE: "/admin/thong-tin-tai-khoan",
   VIOLATIONS: "/admin/xu-phat-giao-thong",
+  LOGIN: "/admin/dang-nhap",
 };
 
 export const IS_NEXT_RESPONSE_EMPTY = {
@@ -45,3 +46,4 @@ export const DASHBOARD = {
   SIDEBAR_WIDTH: 286,
   HEADER_HEIGHT: 80,
 };
+export const WEBSITE_TITLE = "Website hỗ trợ truy vấn luật giao thông đường bộ";

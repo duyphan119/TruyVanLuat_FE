@@ -1,10 +1,12 @@
 import { DASHBOARD, PROTECTED_ROUTES } from "@/utils/constants";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaLayerGroup } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { TbRoadSign } from "react-icons/tb";
 import { MdMoneyOff } from "react-icons/md";
+import authApi from "@/api/auth.api";
+import useUserStore from "@/zustand/userStore";
 
 type Props = {
   open: boolean;
@@ -54,9 +56,17 @@ const items = [
 
 const AdminSidebar = ({ open }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useUserStore();
 
   const handleLogout = () => {
-    //
+    logout()
+      .then((res) => {
+        router.push(PROTECTED_ROUTES.LOGIN);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -1,5 +1,5 @@
 import newsApi from "@/api/news.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Container from "@/components/common/Container";
 import MainLayout from "@/components/layouts/MainLayout";
 import News from "@/types/news/News";
@@ -19,7 +19,7 @@ const Page = ({ news }: Props) => {
       <Head>
         <title>{news.title}</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
             <article>
@@ -57,7 +57,7 @@ const Page = ({ news }: Props) => {
             </article>
           </Container>
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 };

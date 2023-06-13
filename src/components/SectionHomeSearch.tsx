@@ -122,11 +122,13 @@ const SectionHomeSearch = (props: Props) => {
                       }`}
                       key={row.id}
                       // title={row.content}
-                      title={row.legal.point.name}
+                      // title={row.legal.point.name}
+                      title={row.name}
                     >
                       <p className="three-dot three-dot-2 text-sm font-medium group-hover:text-[var(--mainColor)]">
                         {/* {row.content} */}
-                        {row.legal.point.name}
+                        {/* {row.legal.point.name} */}
+                        {row.name}
                       </p>
                       <p className="mt-1 text-[12px] text-rose-500">
                         {/* {row.punishment} */}

@@ -7,7 +7,7 @@ type Props = {
   items: Array<{
     label: string;
     href: string;
-    hideSeperateAfter?: boolean;
+    hideSeparateAfter?: boolean;
   }>;
   current: ReactNode;
   className?: string;
@@ -37,7 +37,7 @@ const Breadcrumbs = ({
                   {item.label}
                 </Link>
               </li>
-              {item.hideSeperateAfter ? null : (
+              {item.hideSeparateAfter ? null : (
                 <li>
                   <span className="mx-2 text-neutral-500 dark:text-neutral-400">
                     /

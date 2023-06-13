@@ -1,9 +1,11 @@
+import groupTrafficSignApi from "@/api/groupTrafficSign.api";
 import trafficSignApi from "@/api/trafficSign.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
+import GroupTrafficSign from "@/types/groupTrafficSign/GroupTrafficSign";
 import PaginationResponse from "@/types/response/PaginationResponse";
 import TrafficSign from "@/types/trafficSign/TrafficSign";
 import { PAGINATION_RESPONSE_EMPTY, PUBLIC_ROUTES } from "@/utils/constants";
@@ -22,7 +24,7 @@ type Props = {};
 
 const Page = (props: Props) => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<PaginationResponse<TrafficSign>>(
+  const [data, setData] = useState<PaginationResponse<GroupTrafficSign>>(
     PAGINATION_RESPONSE_EMPTY
   );
   const [activeData, setActiveData] = useState<boolean[]>([]);
@@ -33,7 +35,7 @@ const Page = (props: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    trafficSignApi
+    groupTrafficSignApi
       .getAll()
       .then((resData) => {
         if (isMounted) {
@@ -58,7 +60,7 @@ const Page = (props: Props) => {
       {loading ? (
         <Loading fullScreen={true} />
       ) : (
-        <AuthLogin>
+        <AuthNotFound>
           <MainLayout>
             <Container className="py-4">
               <Breadcrumbs
@@ -66,7 +68,7 @@ const Page = (props: Props) => {
                   {
                     label: "Trang chủ",
                     href: PUBLIC_ROUTES.HOME,
-                    hideSeperateAfter: true,
+                    hideSeparateAfter: true,
                   },
                 ]}
                 titleCenter={true}
@@ -99,15 +101,19 @@ const Page = (props: Props) => {
                       <div className="w-full h-[0.5px] my-1 bg-black"></div>
                       {activeData[index] ? (
                         <Fragment>
-                          {row.meaning ? (
+                          {row.effect ? (
                             <p>
-                              Nhóm {row.name.toLowerCase()} {row.meaning}
+                              {row.name} {row.effect}
                             </p>
                           ) : null}
                           <div className="grid lg:grid-cols-12 gap-4 mt-2">
-                            {row.children.map((child, idx) => {
+                            {row.children?.map((child, idx) => {
                               return (
-                                <div className="col-span-2" key={idx}>
+                                <div
+                                  className="col-span-2"
+                                  key={idx}
+                                  title={`${child.code}: ${child.name}`}
+                                >
                                   <div
                                     className={`relative flex items-center justify-center h-40 border border-neutral-500`}
                                   >
@@ -122,7 +128,7 @@ const Page = (props: Props) => {
                                     />
                                   </div>
                                   <div className="mt-2 text-sm">
-                                    {child.name}
+                                    {child.code}: {child.name}
                                   </div>
                                 </div>
                               );
@@ -136,7 +142,7 @@ const Page = (props: Props) => {
               </ul>
             </Container>
           </MainLayout>
-        </AuthLogin>
+        </AuthNotFound>
       )}
     </Fragment>
   );

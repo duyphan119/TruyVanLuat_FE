@@ -1,5 +1,5 @@
 import violationApi from "@/api/violation.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -41,6 +41,7 @@ const Search = (props: Props) => {
   ) => {
     try {
       const data = await violationApi.search(str, p, limit);
+      console.log(data);
       setSearchData({
         ...data,
         ...(isNext ? { rows: [...searchData.rows, ...data.rows] } : {}),
@@ -63,7 +64,7 @@ const Search = (props: Props) => {
       {loading ? (
         <Loading fullScreen={true} />
       ) : (
-        <AuthLogin>
+        <AuthNotFound>
           <MainLayout>
             <Container className="py-2">
               <Breadcrumbs
@@ -71,7 +72,7 @@ const Search = (props: Props) => {
                   {
                     label: "Trang chủ",
                     href: PUBLIC_ROUTES.HOME,
-                    hideSeperateAfter: true,
+                    hideSeparateAfter: true,
                   },
                 ]}
                 current="Tìm kiếm"
@@ -104,14 +105,16 @@ const Search = (props: Props) => {
                           href={`${PUBLIC_ROUTES.VIOLATIONS}/${row.id}`}
                           className={`group border border-neutral-100 py-3 relative pr-3 pl-10 rounded-sm`}
                           // title={row.content}
-                          title={row.legal.point.name}
+                          // title={row.legal.point.name}
+                          title={row.name}
                         >
                           <div className="group-hover:text-[var(--mainColor)] absolute top-3 left-3 text-sm">
                             {index + 1}.
                           </div>
                           <p className="three-dot three-dot-3 text-sm font-medium group-hover:text-[var(--mainColor)]">
                             {/* {row.content} */}
-                            {row.legal.point.name}
+                            {/* {row.legal.point.name} */}
+                            {row.name}
                           </p>
                           <p className="three-dot three-dot-2 mt-1 text-[12px] text-rose-500">
                             {/* {row.punishment} */}
@@ -125,7 +128,7 @@ const Search = (props: Props) => {
               </Flex>
             </Container>
           </MainLayout>
-        </AuthLogin>
+        </AuthNotFound>
       )}
     </Fragment>
   );

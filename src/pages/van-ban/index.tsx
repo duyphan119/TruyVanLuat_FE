@@ -1,5 +1,5 @@
 import vanbanApi from "@/api/vanban.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -34,7 +34,7 @@ const Page = ({ data, p }: Props) => {
       <Head>
         <title>Tất cả văn bản</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
             <Flex className="flex-col !gap-4 !items-start">
@@ -43,7 +43,7 @@ const Page = ({ data, p }: Props) => {
                   {
                     href: PUBLIC_ROUTES.HOME,
                     label: "Trang chủ",
-                    hideSeperateAfter: true,
+                    hideSeparateAfter: true,
                   },
                 ]}
                 current="Tất cả văn bản"
@@ -85,7 +85,7 @@ const Page = ({ data, p }: Props) => {
             </Flex>
           </Container>
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 };

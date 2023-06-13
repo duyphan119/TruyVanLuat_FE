@@ -1,9 +1,11 @@
 import violationApi from "@/api/violation.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
 import Violation from "@/types/violation/Violation";
+import { PUBLIC_ROUTES } from "@/utils/constants";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
@@ -39,9 +41,28 @@ const Page = (props: Props) => {
       <Head>
         <title>Thông tin vi phạm</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
+            <Breadcrumbs
+              items={[
+                {
+                  href: PUBLIC_ROUTES.HOME,
+                  label: "Trang chủ",
+                  hideSeparateAfter: true,
+                },
+              ]}
+              titleCenter={true}
+              current="Vi phạm"
+            />
+            <p className="text-3xl">{data.name}</p>
+            <p className="mt-1">Đối tượng xử phạt: {data.violator}</p>
+            <p className="mt-1 text-rose-500">{data.fine}</p>
+            <p className="mt-1">
+              Chi tiết: <span className="text-blue-500">{data.legal}</span>
+            </p>
+          </Container>
+          {/* <Container className="py-4">
             <p className="text-center font-bold">{data.legal.name}</p>
             <p className="uppercase">
               Chương {data.legal.chapter.num}. {data.legal.chapter.name}
@@ -58,7 +79,7 @@ const Page = (props: Props) => {
             <p className="">
               {data.legal.point.num}. {data.legal.point.name}
             </p>
-          </Container>
+          </Container> */}
           {/* <div className="violation-detail">
           <Container>
             <div className="">Đối tượng: {data.apply_for}</div>
@@ -223,7 +244,7 @@ const Page = (props: Props) => {
           </Container>
         </div> */}
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 };

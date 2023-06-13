@@ -1,22 +1,24 @@
-import { useState } from "react";
-import authApi from "@/api/auth.api";
 import styles from "@/components/styles/AuthForm.module.css";
-import RegisterDTO from "@/types/user/RegisterDTO";
-import { PUBLIC_ROUTES } from "@/utils/constants";
-import Link from "next/link";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import LoginDTO from "@/types/user/LoginDTO";
-import { useRouter } from "next/navigation";
+import RegisterDTO from "@/types/user/RegisterDTO";
+import { PROTECTED_ROUTES, PUBLIC_ROUTES } from "@/utils/constants";
 import useToastStore from "@/zustand/toastStore";
+import useUserStore from "@/zustand/userStore";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {
   isRegisterForm?: boolean;
+  isAdminForm?: boolean;
 };
 
-const AuthForm = ({ isRegisterForm }: Props) => {
+const AuthForm = ({ isRegisterForm, isAdminForm }: Props) => {
   const router = useRouter();
 
   const { show } = useToastStore();
+  const { register: apiRegister, login, profile } = useUserStore();
 
   const [submitLoading, setSubmitLoading] = useState(false);
   const [formMessage, setFormMessage] = useState("");
@@ -47,8 +49,7 @@ const AuthForm = ({ isRegisterForm }: Props) => {
     };
     if (isRegisterForm) {
       // Đăng ký
-      authApi
-        .register(formData as RegisterDTO)
+      apiRegister(formData as RegisterDTO)
         .then((res) => {
           router.push(PUBLIC_ROUTES.HOME);
           show({
@@ -65,15 +66,18 @@ const AuthForm = ({ isRegisterForm }: Props) => {
         });
     } else {
       // Đăng nhập
-      authApi
-        .login(formData as LoginDTO)
+      login(formData as LoginDTO)
         .then((res) => {
           show({
             text: "Đăng nhập thành công",
             title: "Thành công",
             type: "success",
           });
-          router.push(PUBLIC_ROUTES.HOME);
+          if (isAdminForm) {
+            router.push(PROTECTED_ROUTES.DASHBOARD);
+          } else {
+            router.push(PUBLIC_ROUTES.HOME);
+          }
         })
         .catch((error) => {
           setFormMessage(error.response.data.message);
@@ -83,6 +87,17 @@ const AuthForm = ({ isRegisterForm }: Props) => {
         });
     }
   };
+
+  useEffect(() => {
+    if (profile) {
+      if (isAdminForm) {
+        console.log(PROTECTED_ROUTES.DASHBOARD);
+        router.push(PROTECTED_ROUTES.DASHBOARD);
+      } else {
+        router.push(PUBLIC_ROUTES.HOME);
+      }
+    }
+  }, [profile]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -174,14 +189,16 @@ const AuthForm = ({ isRegisterForm }: Props) => {
       >
         <span className="text">{isRegisterForm ? "Đăng ký" : "Đăng nhập"}</span>
       </button>
-      <p className={styles["signup-link"]}>
-        {isRegisterForm ? "Đã tài khoản? " : "Không có tài khoản? "}
-        <Link
-          href={isRegisterForm ? PUBLIC_ROUTES.LOGIN : PUBLIC_ROUTES.REGISTER}
-        >
-          {isRegisterForm ? "Đăng nhập" : "Đăng ký"}
-        </Link>
-      </p>
+      {isAdminForm ? null : (
+        <p className={styles["signup-link"]}>
+          {isRegisterForm ? "Đã tài khoản? " : "Không có tài khoản? "}
+          <Link
+            href={isRegisterForm ? PUBLIC_ROUTES.LOGIN : PUBLIC_ROUTES.REGISTER}
+          >
+            {isRegisterForm ? "Đăng nhập" : "Đăng ký"}
+          </Link>
+        </p>
+      )}
     </form>
   );
 };

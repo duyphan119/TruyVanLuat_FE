@@ -1,4 +1,5 @@
-import AuthLogin from "@/components/auth/AuthLogin";
+import messageApi from "@/api/message.api";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Container from "@/components/common/Container";
 import Loading from "@/components/common/Loading";
 import ChatForm from "@/components/form/ChatForm";
@@ -8,6 +9,7 @@ import RecommendQuestions from "@/components/RecommendQuestions";
 import Message from "@/types/message/Message";
 import RecommendQuestion from "@/types/recommendQuestion/RecommendQuestion";
 import { HEADER_HEIGHT } from "@/utils/constants";
+import useUserStore from "@/zustand/userStore";
 import Head from "next/head";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
@@ -60,26 +62,58 @@ export default function Page() {
   const chatRef = useRef<HTMLDivElement | null>(null);
 
   const [socket, setSocket] = useState<any | null>(null);
+  const { profile } = useUserStore();
 
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isChatEmpty, setIsChatEmpty] = useState<boolean>(
-    messages.length === 0
-  );
+  const [isChatEmpty, setIsChatEmpty] = useState<boolean>(false);
+  const [roomId, setRoomId] = useState("");
+
+  console.log(roomId);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await messageApi.getAll();
+        setMessages(data);
+        setIsChatEmpty(data.length === 0);
+      } catch (error) {}
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (roomId === "") {
+      const id = profile
+        ? profile.id
+        : "" + (Math.floor(Math.random() * 10000) + new Date().getTime());
+      setRoomId(id);
+    }
+  }, [profile, roomId]);
+
+  useEffect(() => {
+    if (socket && roomId !== "") {
+      socket.emit("join-room", roomId);
+    }
+  }, [roomId]);
 
   useEffect(() => {
     const s = io(`${process.env.LAWS_API}`);
 
-    s.on("bot-answer", (content: string) => {
+    s.on("bot-answer", (message: string) => {
       const dateString = new Date().toISOString();
       setMessages((state) => {
-        if (state.length > 0 && state[state.length - 1].isUser)
+        if (state.length > 0 && state[state.length - 1].user_id !== "")
           return [
             ...state,
             {
-              content,
+              content: message,
               id: dateString,
-              createdAt: dateString,
-              isUser: false,
+              created_at: dateString,
+              user_id: "",
+              entities: [],
+              intent: "",
+              updated_at: dateString,
             },
           ];
         return state;
@@ -94,17 +128,32 @@ export default function Page() {
   }, []);
 
   const sendMessage = (content: string) => {
-    socket.emit("user-send-message", content);
+    // if (profile) {
+    //   messageApi
+    //     .createOne({ content })
+    //     .then((res) => {
+    //       setMessages([...messages, res]);
+    //     })
+    //     .catch((error) => console.log(error))
+    //     .finally(() => {
+    //       socket.emit("send-message", { roomId, message: content });
+    //     });
+    // } else {
     const dateString = new Date().toISOString();
     setMessages([
       ...messages,
       {
         content,
         id: dateString,
-        createdAt: dateString,
-        isUser: true,
+        created_at: dateString,
+        user_id: roomId,
+        entities: [],
+        intent: "",
+        updated_at: dateString,
       },
     ]);
+    socket.emit("send-message", { roomId, message: content });
+    // }
   };
 
   useEffect(() => {
@@ -137,7 +186,7 @@ export default function Page() {
       {loading ? (
         <Loading fullScreen={true} />
       ) : (
-        <AuthLogin>
+        <AuthNotFound>
           <MainLayout hideFooter={true} contentClassName="bg-[#f9f9f9]">
             <Container className="bg-white py-4">
               <div
@@ -167,7 +216,7 @@ export default function Page() {
               </div>
             </Container>
           </MainLayout>
-        </AuthLogin>
+        </AuthNotFound>
       )}
     </Fragment>
   );

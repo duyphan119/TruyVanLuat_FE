@@ -7,9 +7,15 @@ type Props = {
   children: ReactNode;
   requireLogin?: boolean;
   requireNoLogin?: boolean;
+  requireNoLoginAdmin?: boolean;
 };
 
-const AuthLogin = ({ children, requireLogin, requireNoLogin }: Props) => {
+const AuthNotFound = ({
+  children,
+  requireLogin,
+  requireNoLogin,
+  requireNoLoginAdmin,
+}: Props) => {
   const { getProfile, isFetchedProfile, profile } = useUserStore();
 
   useEffect(() => {
@@ -28,7 +34,13 @@ const AuthLogin = ({ children, requireLogin, requireNoLogin }: Props) => {
         <NotFound />
       </>
     );
+  if (requireNoLoginAdmin && isFetchedProfile && profile && profile.is_admin)
+    return (
+      <>
+        <NotFound />
+      </>
+    );
   return <>{children}</>;
 };
 
-export default AuthLogin;
+export default AuthNotFound;

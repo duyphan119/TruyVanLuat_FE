@@ -1,5 +1,5 @@
 import newsApi from "@/api/news.api";
-import AuthLogin from "@/components/auth/AuthLogin";
+import AuthNotFound from "@/components/auth/AuthNotFound";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
@@ -43,7 +43,7 @@ const Page = ({ data }: Props) => {
       <Head>
         <title>Tất cả tin tức</title>
       </Head>
-      <AuthLogin>
+      <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
             <Flex className="flex-col !items-start mt-2">
@@ -53,7 +53,7 @@ const Page = ({ data }: Props) => {
                   {
                     label: "Trang chủ",
                     href: PUBLIC_ROUTES.HOME,
-                    hideSeperateAfter: true,
+                    hideSeparateAfter: true,
                   },
                 ]}
                 current="Tất cả tin tức"
@@ -110,7 +110,7 @@ const Page = ({ data }: Props) => {
             </Flex>
           </Container>
         </MainLayout>
-      </AuthLogin>
+      </AuthNotFound>
     </Fragment>
   );
 };
