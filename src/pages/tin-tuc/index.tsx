@@ -5,6 +5,7 @@ import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
+import useQueryString from "@/hooks/useQueryString";
 import News from "@/types/news/News";
 import IsNextResponse from "@/types/response/IsNextResponse";
 import {
@@ -13,11 +14,15 @@ import {
   PLACEHOLDER_THUMBNAIL,
   PUBLIC_ROUTES,
 } from "@/utils/constants";
+import { createQueryString } from "@/utils/helpers";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FaSearch } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
@@ -25,17 +30,36 @@ type Props = {
 };
 
 const Page = ({ data }: Props) => {
+  const router = useRouter();
+
+  const { getString } = useQueryString();
+  const q = getString("q");
+
+  const { register, handleSubmit } = useForm<FieldValues>({
+    defaultValues: { q },
+  });
+
   const [newsData, setNewsData] = useState<IsNextResponse<News>>(data);
   const [page, setPage] = useState<number>(1);
 
-  const fetchNewsData = async (p?: number, limit?: number) => {
+  const fetchNewsData = async (params?: any, isReset?: boolean) => {
     try {
-      const data = await newsApi.getAll({ page: p, limit });
-      setNewsData({
-        ...data,
-        rows: [...newsData.rows, ...data.rows],
-      });
+      const data = await newsApi.getAll({ ...params });
+      setNewsData(
+        isReset
+          ? data
+          : {
+              ...data,
+              rows: [...newsData.rows, ...data.rows],
+            }
+      );
     } catch (error) {}
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+    const qs = createQueryString({ ...values });
+    router.push(`${PUBLIC_ROUTES.NEWS}${qs}`);
+    fetchNewsData(values, true);
   };
 
   return (
@@ -58,10 +82,25 @@ const Page = ({ data }: Props) => {
                 ]}
                 current="Tất cả tin tức"
               />
+              <form
+                className="relative my-4 w-full"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <input
+                  type="text"
+                  id="q"
+                  className="border border-neutral-500 pr-2 py-2 pl-8 focus:border-transparent outline-neutral-500 rounded-sm w-full"
+                  placeholder="Nhập từ khoá tìm kiếm"
+                  {...register("q")}
+                />
+                <span className="absolute top-1/2 -translate-y-1/2 left-2 text-neutral-500">
+                  <FaSearch />
+                </span>
+              </form>
               <InfiniteScroll
                 dataLength={newsData.rows.length}
                 next={() => {
-                  fetchNewsData(page + 1, DEFAULT_LIMIT);
+                  fetchNewsData({ p: page + 1 });
                   setPage(page + 1);
                 }}
                 hasMore={newsData.isNext}
@@ -119,7 +158,7 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   try {
-    const data = await newsApi.getAll({ limit: DEFAULT_LIMIT });
+    const data = await newsApi.getAll({ ...context.query });
     return {
       props: { data },
     };

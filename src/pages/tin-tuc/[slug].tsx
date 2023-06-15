@@ -1,8 +1,10 @@
 import newsApi from "@/api/news.api";
 import AuthNotFound from "@/components/auth/AuthNotFound";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import MainLayout from "@/components/layouts/MainLayout";
 import News from "@/types/news/News";
+import { PUBLIC_ROUTES } from "@/utils/constants";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -22,11 +24,25 @@ const Page = ({ news }: Props) => {
       <AuthNotFound>
         <MainLayout>
           <Container className="py-4">
+            <Breadcrumbs
+              titleCenter={true}
+              items={[
+                {
+                  href: PUBLIC_ROUTES.HOME,
+                  label: "Trang chủ",
+                },
+                {
+                  href: PUBLIC_ROUTES.NEWS,
+                  label: "Tin tức",
+                  hideSeparateAfter: true,
+                },
+              ]}
+            />
             <article>
               <h1 className="font-bold text-3xl">{news.title}</h1>
               <div className="text-gray-500 text-sm mt-2">{news.createdAt}</div>
               <p className="mt-2">{news.description}</p>
-              <div className="mt-2">
+              {/* <div className="mt-2">
                 {news.paragraphs?.map((paragraph, index) => {
                   const isLast = index + 1 === news.paragraphs?.length;
                   return paragraph.type === "image" ? (
@@ -53,7 +69,11 @@ const Page = ({ news }: Props) => {
                     </p>
                   );
                 })}
-              </div>
+              </div> */}
+              <div
+                className="mt-2"
+                dangerouslySetInnerHTML={{ __html: "" + news.content }}
+              ></div>
             </article>
           </Container>
         </MainLayout>

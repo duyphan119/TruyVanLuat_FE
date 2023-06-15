@@ -9,7 +9,7 @@ type Props = {
     href: string;
     hideSeparateAfter?: boolean;
   }>;
-  current: ReactNode;
+  current?: ReactNode;
   className?: string;
 };
 

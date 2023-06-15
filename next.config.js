@@ -2,15 +2,24 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "cloudflare-ipfs.com",
-      "product.hstatic.net",
-      "bizweb.dktcdn.net",
-      "cdn.baogiaothong.vn",
-      "i1-vnexpress.vnecdn.net",
-      "s1.vnecdn.net",
-      "upload.wikimedia.org",
-      "upcdn.io",
+    // domains: [
+    //   "cloudflare-ipfs.com",
+    //   "product.hstatic.net",
+    //   "bizweb.dktcdn.net",
+    //   "cdn.baogiaothong.vn",
+    //   "i1-vnexpress.vnecdn.net",
+    //   "s1.vnecdn.net",
+    //   "upload.wikimedia.org",
+    //   "upcdn.io",
+    //   "static-images.vnncdn.net",
+    //   "vnn-imgs-f.vgcloud.vn",
+    //   "vnn-imgs-a1.vgcloud.vn",
+    // ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
   env: {
