@@ -17,12 +17,11 @@ import { io } from "socket.io-client";
 const recommendList: RecommendQuestion[] = [
   {
     id: 1,
-    content: "Quy định về tốc độ giới hạn trên đường bộ là gì?",
+    content: "Lỗi không xi nhan bị phạt bao nhiêu ?",
   },
   {
     id: 2,
-    content:
-      "Luật giao thông có quy định về việc đeo dây an toàn khi lái xe không?",
+    content: "Xe thô sơ là gì ?",
   },
   {
     id: 3,
@@ -31,12 +30,11 @@ const recommendList: RecommendQuestion[] = [
   },
   {
     id: 4,
-    content:
-      "Điều kiện về quyền ưu tiên của xe ưu tiên khi tham gia giao thông đường bộ.",
+    content: "Không chấp hành hiệu lệnh của biển báo hiệu có bị sao không ?",
   },
   {
     id: 5,
-    content: "Quy định về việc sử dụng điện thoại di động khi lái xe.",
+    content: "Các vi phạm về đèn đỏ đối với xe thô sơ là gì",
   },
   {
     id: 6,
@@ -44,7 +42,7 @@ const recommendList: RecommendQuestion[] = [
   },
   {
     id: 7,
-    content: "Quy định về việc chấp hành tín hiệu đèn giao thông.",
+    content: "Liệt kê các vi phạm đối với xe lăn của người khuyết tật",
   },
   {
     id: 8,
@@ -52,7 +50,7 @@ const recommendList: RecommendQuestion[] = [
   },
   {
     id: 9,
-    content: "Luật giao thông về việc dừng và đỗ xe đúng quy định.",
+    content: "Vượt đèn đỏ thì bị phạt gì ?",
   },
 ];
 

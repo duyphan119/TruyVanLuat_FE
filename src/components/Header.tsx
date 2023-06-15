@@ -90,7 +90,7 @@ const Header = (props: Props) => {
           <div className="flex items-center gap-8 h-full">
             <ul className="flex items-center gap-8 h-full">
               {items.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname.startsWith(item.href);
                 return (
                   <li className={`h-full`} key={item.label} title={item.title}>
                     <Link

@@ -19,7 +19,7 @@ const SectionHomeVanBan = (props: Props) => {
   useEffect(() => {
     let isMounted = true;
     vanbanApi
-      .getAll(DEFAULT_PAGE, HOME_PAGE.LIMIT_VANBAN)
+      .search({ p: DEFAULT_PAGE, limit: HOME_PAGE.LIMIT_VANBAN })
       .then((data) => {
         if (isMounted) {
           setVanBans(data.rows);

@@ -36,6 +36,7 @@ class API {
   constructor(baseURL?: string, bearerToken?: string) {
     this.instance = axios.create({
       baseURL: baseURL || "http://localhost:3000/api",
+
       withCredentials: true,
       ...(bearerToken
         ? {

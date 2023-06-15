@@ -68,7 +68,7 @@ export default function Home() {
         <MainLayout onlyChildren={true}>
           <SectionHomeSearch />
           <SectionHomeTopics />
-          <SectionHomeVanBan />
+          {/* <SectionHomeVanBan /> */}
           <SectionHomeNews />
         </MainLayout>
       </AuthNotFound>

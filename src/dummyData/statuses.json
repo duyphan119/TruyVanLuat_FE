@@ -1,0 +1,27 @@
+[
+    {
+        "Title": "Chưa có hiệu lực",
+        "UID": "chua-co-hieu-luc",
+        "Updated": "2017-08-05T00:00:00Z"
+    },
+    {
+        "Title": "Còn hiệu lực",
+        "UID": "con-hieu-luc",
+        "Updated": "2017-08-05T00:00:00Z"
+    },
+    {
+        "Title": "Không còn phù hợp",
+        "UID": "khong-con-phu-hop",
+        "Updated": "2017-08-05T00:00:00Z"
+    },
+    {
+        "Title": "Không xác định",
+        "UID": "khong-xac-dinh",
+        "Updated": "2017-08-05T00:00:00Z"
+    },
+    {
+        "Title": "Hết hiệu lực",
+        "UID": "het-hieu-luc",
+        "Updated": "2017-08-05T00:00:00Z"
+    }
+]
