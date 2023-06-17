@@ -32,7 +32,6 @@ body {
 .infinite-scroll-component__outerdiv {
   width: 100%;
 }
-
 p:target {
   background-color: yellow;
 }

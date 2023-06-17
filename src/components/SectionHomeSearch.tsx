@@ -43,7 +43,11 @@ const SectionHomeSearch = (props: Props) => {
     try {
       if (keyword === "") setSearchData(PAGINATION_RESPONSE_EMPTY);
       else {
-        const data = await violationApi.search(keyword, 1, DEFAULT_LIMIT);
+        const data = await violationApi.search({
+          keyword,
+          p: 1,
+          limit: DEFAULT_LIMIT,
+        });
         if (data.count > 0) {
           setIsComponentVisible(true);
         }
@@ -84,7 +88,7 @@ const SectionHomeSearch = (props: Props) => {
   }, [isSubmitted, keyword]);
 
   return (
-    <section className="section-search w-full h-[560px] bg-home relative text-white">
+    <section className="section-search w-full h-[640px] bg-home relative text-white">
       <Container className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <h2 className="text-[50px] text-center px-3 mb-3">
           Hỗ trợ tra cứu <b>Luật Giao thông Đường bộ</b>
@@ -121,14 +125,14 @@ const SectionHomeSearch = (props: Props) => {
                         index > 0 ? " border-t border-t-neutral-500 pt-2" : ""
                       }`}
                       key={row.id}
-                      // title={row.content}
+                      title={row.content}
                       // title={row.legal.point.name}
-                      title={row.name}
+                      // title={row.name}
                     >
                       <p className="three-dot three-dot-2 text-sm font-medium group-hover:text-[var(--mainColor)]">
-                        {/* {row.content} */}
+                        {row.content}
                         {/* {row.legal.point.name} */}
-                        {row.name}
+                        {/* {row.name} */}
                       </p>
                       <p className="mt-1 text-[12px] text-rose-500">
                         {/* {row.punishment} */}

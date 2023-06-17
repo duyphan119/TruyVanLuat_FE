@@ -1,4 +1,5 @@
-import { HEADER_HEIGHT } from "@/utils/constants";
+import { HEADER_HEIGHT, PUBLIC_ROUTES } from "@/utils/constants";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import Footer from "../Footer";
 import Header from "../Header";
@@ -16,6 +17,8 @@ const MainLayout = ({
   onlyChildren,
   contentClassName = "",
 }: Props) => {
+  const pathname = usePathname();
+  const isAtHomePage = pathname === PUBLIC_ROUTES.HOME;
   return (
     <div className={`flex flex-col min-h-screen`}>
       <Header />
@@ -26,7 +29,7 @@ const MainLayout = ({
           <div
             className={contentClassName}
             style={{
-              paddingTop: HEADER_HEIGHT,
+              paddingTop: isAtHomePage ? HEADER_HEIGHT : 0,
               ...(hideFooter
                 ? {}
                 : {

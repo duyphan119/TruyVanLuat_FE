@@ -74,15 +74,19 @@ const Header = (props: Props) => {
 
   return (
     <header
-      className={`text-white fixed transition-all duration-500 top-0 left-0 right-0 z-[9999]${
-        isScrolled
-          ? " bg-[#1e2022] h-20"
-          : ` ${isAtHomePage ? "bg-transparent h-[90px]" : "bg-[#1e2022] h-20"}`
+      className={`text-white  ${
+        isAtHomePage
+          ? "fixed top-0 left-0 right-0 z-[9999] bg-transparent h-[90px]"
+          : "bg-[#1e2022] h-20"
       }`}
     >
       <Container className="h-full">
         <nav className="h-full flex items-center justify-between">
-          <Link href={PUBLIC_ROUTES.HOME} className="" title="Trang chủ">
+          <Link
+            href={PUBLIC_ROUTES.HOME}
+            className="outline-none"
+            title="Trang chủ"
+          >
             <span className="font-bold">LUAT</span>
             <span className="font-semibold">GIAO</span>
             <span className="font-medium">THONG</span>

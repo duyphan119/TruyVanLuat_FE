@@ -3,12 +3,16 @@ import AuthNotFound from "@/components/auth/AuthNotFound";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Container from "@/components/common/Container";
 import Loading from "@/components/common/Loading";
+import NotFound from "@/components/common/NotFound";
 import MainLayout from "@/components/layouts/MainLayout";
 import Violation from "@/types/violation/Violation";
 import { PUBLIC_ROUTES } from "@/utils/constants";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import { AiFillCaretRight } from "react-icons/ai";
+import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 type Props = {
   data: Violation;
@@ -18,7 +22,7 @@ const Page = (props: Props) => {
   const { query } = useRouter();
   const { id } = query;
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Violation | null>(null);
 
   useEffect(() => {
@@ -27,42 +31,146 @@ const Page = (props: Props) => {
       violationApi
         .getById(`${id}`)
         .then((result) => {
+          console.log(result);
           setData(result);
         })
         .finally(() => {
           setLoading(false);
         });
   }, [id]);
-  if (loading) return <Loading fullScreen={true} />;
-  if (!data) return <Fragment>Not found</Fragment>;
-  console.log(data);
-  return (
-    <Fragment>
-      <Head>
-        <title>Thông tin vi phạm</title>
-      </Head>
-      <AuthNotFound>
-        <MainLayout>
-          <Container className="py-4">
-            <Breadcrumbs
-              items={[
-                {
-                  href: PUBLIC_ROUTES.HOME,
-                  label: "Trang chủ",
-                  hideSeparateAfter: true,
-                },
-              ]}
-              titleCenter={true}
-              current="Vi phạm"
-            />
-            <p className="text-3xl">{data.name}</p>
-            <p className="mt-1">Đối tượng xử phạt: {data.violator}</p>
-            <p className="mt-1 text-rose-500">{data.fine}</p>
-            <p className="mt-1">
-              Chi tiết: <span className="text-blue-500">{data.legal}</span>
-            </p>
-          </Container>
-          {/* <Container className="py-4">
+  if (!data) {
+    if (loading) return <Loading fullScreen={true} />;
+    if (!loading)
+      return (
+        <Fragment>
+          <NotFound />
+        </Fragment>
+      );
+  } else {
+    return (
+      <Fragment>
+        <Head>
+          <title>Thông tin vi phạm</title>
+        </Head>
+        <AuthNotFound>
+          <MainLayout>
+            <Container className="py-4">
+              <Breadcrumbs
+                items={[
+                  {
+                    href: PUBLIC_ROUTES.HOME,
+                    label: "Trang chủ",
+                    hideSeparateAfter: true,
+                  },
+                ]}
+                titleCenter={true}
+                current="Vi phạm"
+              />
+              <p className="mt-1 text-neutral-700">
+                Đối tượng xử phạt: {data.violator}
+              </p>
+              <p className="text-lg font-semibold">{data.content}</p>
+              <p className="mt-1 text-rose-500">{data.fine}</p>
+              <p className="mt-1">
+                <Link
+                  href={`${PUBLIC_ROUTES.NGHI_DINH}#${data.id}`}
+                  className="text-blue-500 hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(
+                      window.location.origin +
+                        PUBLIC_ROUTES.NGHI_DINH +
+                        "#" +
+                        data.id
+                    );
+                  }}
+                >
+                  Xem chi tiết {data.legal}
+                </Link>
+              </p>
+              {data.note ? (
+                <Fragment>
+                  <div className="w-full h-[1px] bg-neutral-300 my-3"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <AiFillCaretRight /> Hình phạt bổ sung:
+                  </p>
+                </Fragment>
+              ) : null}
+              {data.addition_punishments.length > 0 ? (
+                <Fragment>
+                  <div className="w-full h-[1px] bg-neutral-300 my-3"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <MdOutlineSubdirectoryArrowRight /> Hình phạt bổ sung:
+                  </p>
+                  <ul>
+                    {data.addition_punishments.map((item, index) => {
+                      return (
+                        <li key={index}>
+                          <p className="first-letter:uppercase">
+                            {item.content}
+                          </p>
+                          <p className="mt-1">
+                            <Link
+                              href={`${PUBLIC_ROUTES.NGHI_DINH}#${data.id}`}
+                              className="text-blue-500 hover:underline"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  window.location.origin +
+                                    PUBLIC_ROUTES.NGHI_DINH +
+                                    "#" +
+                                    item.id
+                                );
+                              }}
+                            >
+                              Xem chi tiết {item.legal}
+                            </Link>
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Fragment>
+              ) : null}
+              {data.solutions.length > 0 ? (
+                <Fragment>
+                  <div className="w-full h-[1px] bg-neutral-300 my-3"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <MdOutlineSubdirectoryArrowRight size={24} /> Biện pháp khắc
+                    phục:
+                  </p>
+                  <ul>
+                    {data.solutions.map((item, index) => {
+                      return (
+                        <li key={index}>
+                          <p className="first-letter:uppercase">
+                            {item.content}
+                          </p>
+                          <p className="mt-1">
+                            <Link
+                              href={`${PUBLIC_ROUTES.NGHI_DINH}#${data.id}`}
+                              className="text-blue-500 hover:underline"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  window.location.origin +
+                                    PUBLIC_ROUTES.NGHI_DINH +
+                                    "#" +
+                                    item.id
+                                );
+                              }}
+                            >
+                              Xem chi tiết {item.legal}
+                            </Link>
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Fragment>
+              ) : null}
+            </Container>
+            {/* <Container className="py-4">
             <p className="text-center font-bold">{data.legal.name}</p>
             <p className="uppercase">
               Chương {data.legal.chapter.num}. {data.legal.chapter.name}
@@ -80,7 +188,7 @@ const Page = (props: Props) => {
               {data.legal.point.num}. {data.legal.point.name}
             </p>
           </Container> */}
-          {/* <div className="violation-detail">
+            {/* <div className="violation-detail">
           <Container>
             <div className="">Đối tượng: {data.apply_for}</div>
             <div className="font-bold mt-2 text-lg">{data.content}</div>
@@ -243,10 +351,11 @@ const Page = (props: Props) => {
             ) : null}
           </Container>
         </div> */}
-        </MainLayout>
-      </AuthNotFound>
-    </Fragment>
-  );
+          </MainLayout>
+        </AuthNotFound>
+      </Fragment>
+    );
+  }
 };
 
 // export const getServerSideProps = async (

@@ -18,12 +18,12 @@ const getAll = (
 
 const getById = (id: string): Promise<Violation> => api.get(`violations/${id}`);
 
-const search = (
-  keyword: string,
-  p?: number,
-  limit?: number
-): Promise<PaginationResponse<Violation>> =>
-  api.get(`violations/search`, { keyword, p, limit });
+const search = (params: {
+  keyword: string;
+  p?: number;
+  limit?: number;
+}): Promise<PaginationResponse<Violation>> =>
+  api.get(`violations/search`, params);
 
 const violationApi = {
   getById,

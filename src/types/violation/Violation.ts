@@ -56,8 +56,21 @@ type Violation = {
   //   };
   // };
 
-  name: string;
+  // name: string;
   legal: string;
+
+  content: string;
+  addition_punishments: {
+    id: string;
+    content: string;
+    legal: string;
+  }[];
+  solutions: {
+    id: string;
+    content: string;
+    legal: string;
+  }[];
+  note: string;
 };
 
 export default Violation;
