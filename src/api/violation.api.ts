@@ -16,7 +16,15 @@ const getAll = (
   params?: ViolationParams
 ): Promise<PaginationResponse<Violation>> => api.get("violations", params);
 
+const updateOne = (
+  id: string,
+  body: Partial<Violation>
+): Promise<{ is_success: boolean }> => api.patch(`violations/${id}`, body);
+
 const getById = (id: string): Promise<Violation> => api.get(`violations/${id}`);
+
+const getRelated = (id: string): Promise<Violation[]> =>
+  api.get(`violations/related/${id}`);
 
 const search = (params: {
   keyword: string;
@@ -29,6 +37,8 @@ const violationApi = {
   getById,
   search,
   getAll,
+  updateOne,
+  getRelated,
 };
 
 export default violationApi;

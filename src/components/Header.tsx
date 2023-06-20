@@ -74,10 +74,12 @@ const Header = (props: Props) => {
 
   return (
     <header
-      className={`text-white  ${
+      className={`text-white h-20 ${
         isAtHomePage
-          ? "fixed top-0 left-0 right-0 z-[9999] bg-transparent h-[90px]"
-          : "bg-[#1e2022] h-20"
+          ? `fixed top-0 left-0 right-0 z-[9999] ${
+              isScrolled ? "bg-[#1e2022]" : "bg-transparent"
+            }`
+          : "bg-[#1e2022]"
       }`}
     >
       <Container className="h-full">

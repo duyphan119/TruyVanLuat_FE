@@ -90,7 +90,7 @@ const Page = (props: Props) => {
                   className: "text-left",
                 },
                 {
-                  label: "Hành động",
+                  label: "",
                   key: "actions",
                   render: (model: GroupTrafficSign) => (
                     <div className="flex items-center justify-center gap-2">

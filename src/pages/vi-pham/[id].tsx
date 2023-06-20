@@ -7,6 +7,7 @@ import NotFound from "@/components/common/NotFound";
 import MainLayout from "@/components/layouts/MainLayout";
 import Violation from "@/types/violation/Violation";
 import { PUBLIC_ROUTES } from "@/utils/constants";
+import { generateHrefId } from "@/utils/helpers";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -24,15 +25,22 @@ const Page = (props: Props) => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Violation | null>(null);
+  const [related, setRelated] = useState<Violation[]>([]);
 
   useEffect(() => {
     setLoading(true);
     if (id)
-      violationApi
-        .getById(`${id}`)
-        .then((result) => {
-          console.log(result);
-          setData(result);
+      Promise.allSettled([
+        violationApi.getById(`${id}`),
+        violationApi.getRelated(`${id}`),
+      ])
+        .then(([res1, res2]) => {
+          if (res1.status === "fulfilled") {
+            setData(res1.value);
+          }
+          if (res2.status === "fulfilled") {
+            setRelated(res2.value);
+          }
         })
         .finally(() => {
           setLoading(false);
@@ -69,7 +77,7 @@ const Page = (props: Props) => {
               <p className="mt-1 text-neutral-700">
                 Đối tượng xử phạt: {data.violator}
               </p>
-              <p className="text-lg font-semibold">{data.content}</p>
+              <p className="font-bold">{data.name}</p>
               <p className="mt-1 text-rose-500">{data.fine}</p>
               <p className="mt-1">
                 <Link
@@ -81,14 +89,52 @@ const Page = (props: Props) => {
                       window.location.origin +
                         PUBLIC_ROUTES.NGHI_DINH +
                         "#" +
-                        data.id
+                        generateHrefId(data.legal)
                     );
                   }}
                 >
                   Xem chi tiết {data.legal}
                 </Link>
               </p>
-              {data.note ? (
+              {related.length > 0 ? (
+                <Fragment>
+                  <div className="h-[1px] my-3 w-full bg-neutral-300"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <AiFillCaretRight /> Hành vi liên quan
+                  </p>
+                  <ul>
+                    {related.map((item) => {
+                      return (
+                        <li key={item.id}>
+                          <p className="mt-1 text-neutral-700">
+                            Đối tượng xử phạt: {item.violator}
+                          </p>
+                          <p className="font-bold">{item.name}</p>
+                          <p className="mt-1 text-rose-500">{item.fine}</p>
+                          <p className="mt-1">
+                            <Link
+                              href={`${PUBLIC_ROUTES.NGHI_DINH}#${item.id}`}
+                              className="text-blue-500 hover:underline"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  window.location.origin +
+                                    PUBLIC_ROUTES.NGHI_DINH +
+                                    "#" +
+                                    generateHrefId(item.legal)
+                                );
+                              }}
+                            >
+                              Xem chi tiết {item.legal}
+                            </Link>
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Fragment>
+              ) : null}
+              {/* {data.note ? (
                 <Fragment>
                   <div className="w-full h-[1px] bg-neutral-300 my-3"></div>
                   <p className="flex items-center gap-2 font-bold">
@@ -168,7 +214,7 @@ const Page = (props: Props) => {
                     })}
                   </ul>
                 </Fragment>
-              ) : null}
+              ) : null} */}
             </Container>
             {/* <Container className="py-4">
             <p className="text-center font-bold">{data.legal.name}</p>

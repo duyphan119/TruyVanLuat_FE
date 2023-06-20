@@ -21,8 +21,8 @@ const NotFound = (props: Props) => {
           Lỗi <span className={styles["errorcode"]}>404</span>
         </h1>
         <p className={styles["output"]}>
-          The page you are looking for might have been removed, had its name
-          changed or is temporarily unavailable.
+          Trang bạn đang tìm có thể đã bị xóa, đã thay đổi tên hoặc tạm thời
+          không khả dụng.
         </p>
         <p className={styles["output"]}>
           Vui lòng thử{" "}

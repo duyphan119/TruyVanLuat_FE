@@ -1,4 +1,4 @@
-import TrafficSignForm from "@/components/common/TrafficSignForm";
+import TrafficSignForm from "@/components/form/TrafficSignForm";
 import Paper from "@/components/common/Paper";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Head from "next/head";

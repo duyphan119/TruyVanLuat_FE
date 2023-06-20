@@ -19,6 +19,8 @@ type Violation = {
   // punishment: string;
   // detail: string;
   violator: string;
+  behavior: string;
+  about: string;
   // solutions: Array<{
   //   id: string;
   //   content: string;
@@ -30,6 +32,7 @@ type Violation = {
   //   detail: string;
   // }>;
 
+  // violators: string[];
   fine: string;
   // legal: {
   //   name: string;
@@ -56,21 +59,21 @@ type Violation = {
   //   };
   // };
 
-  // name: string;
+  name: string;
   legal: string;
-
-  content: string;
-  addition_punishments: {
-    id: string;
-    content: string;
-    legal: string;
-  }[];
-  solutions: {
-    id: string;
-    content: string;
-    legal: string;
-  }[];
-  note: string;
+  // keywords: string;
+  // content: string;
+  // addition_punishments: {
+  //   id: string;
+  //   content: string;
+  //   legal: string;
+  // }[];
+  // solutions: {
+  //   id: string;
+  //   content: string;
+  //   legal: string;
+  // }[];
+  // note: string;
 };
 
 export default Violation;

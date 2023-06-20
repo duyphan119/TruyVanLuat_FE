@@ -99,7 +99,7 @@ const Page = (props: Props) => {
                   ),
                 },
                 {
-                  label: "Hành động",
+                  label: "",
                   key: "actions",
                   render: (model: TrafficSign) => (
                     <div className="flex items-center justify-center gap-2">

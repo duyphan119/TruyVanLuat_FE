@@ -5,7 +5,7 @@ import useToastStore from "@/zustand/toastStore";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Button from "./Button";
+import Button from "../common/Button";
 
 type Props = {
   data?: GroupTrafficSign;

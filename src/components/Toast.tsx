@@ -21,7 +21,7 @@ const Toast = (props: Props) => {
 
   return (
     <div
-      className={`toast fixed top-24 right-2 bg-white rounded-md p-3 flex gap-2 border border-neutral-200 shadow w-64 max-w-[256px] transition-all duration-500 z-[99999] ${
+      className={`toast fixed top-24 right-2 bg-white rounded-md p-3 flex gap-2 border border-neutral-200 shadow w-64 max-w-[280px] transition-all duration-500 z-[99999] ${
         visible ? "translate-x-0" : "translate-x-[264px]"
       }`}
     >

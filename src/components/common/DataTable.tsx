@@ -1,6 +1,7 @@
 import Col from "@/types/dataTable/Col";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
+import Loading from "./Loading";
 import Pagination from "./Pagination";
 
 type Props = {
@@ -22,6 +23,8 @@ type Props = {
   };
   className?: string;
   style?: React.CSSProperties;
+  loading?: boolean;
+  onSearch?: (keyword: string) => void;
 };
 
 const DataTable = ({
@@ -32,15 +35,17 @@ const DataTable = ({
   newDataButton,
   className,
   style,
+  loading,
+  onSearch,
 }: Props) => {
   return (
     <div
-      className={`flex flex-col  ${className || ""}`}
+      className={`flex flex-col ${className || ""}`}
       style={{ height: pagination ? `calc(100% - 48px)` : "100%", ...style }}
     >
-      {newDataButton ? (
+      {newDataButton || onSearch ? (
         <div className="flex items-center justify-between mb-2">
-          <div className="left">
+          <div className="left flex items-center gap-2">
             {newDataButton ? (
               <Link
                 href={newDataButton.link}
@@ -55,12 +60,14 @@ const DataTable = ({
             ) : null}
           </div>
           <div className="right flex items-center justify-end">
-            {pagination ? <div></div> : null}
+            {onSearch ? (
+              <form className="flex items-center gap-2"></form>
+            ) : null}
           </div>
         </div>
       ) : null}
-      <div className="flex-1 overflow-y-auto">
-        <table className="">
+      <div className="flex-1 overflow-y-auto border border-neutral-300">
+        <table className=" text-sm">
           <thead>
             <tr className="bg-neutral-300">
               {hasColIndex ? <th className="p-2">#</th> : null}
@@ -74,7 +81,13 @@ const DataTable = ({
             </tr>
           </thead>
           <tbody>
-            {rows.length > 0 ? (
+            {loading ? (
+              <tr>
+                <td colSpan={cols.length + (hasColIndex ? 1 : 0)}>
+                  <Loading />
+                </td>
+              </tr>
+            ) : rows.length > 0 ? (
               rows.map((row, indexRow) => {
                 return (
                   <tr key={row.id} className="border-t border-t-neutral-300">

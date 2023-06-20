@@ -14,6 +14,8 @@ export default async function handler(
         p ? +p - 1 : 0
       }?bydaterang=all&cate=00000P&newstype=all&od=2&q=${q || ""}`;
 
+      console.log(url);
+
       const { data: html } = await axios.get(url);
       const $ = cheerio.load(html);
 

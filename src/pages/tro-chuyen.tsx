@@ -108,10 +108,10 @@ export default function Page() {
               content: message,
               id: dateString,
               created_at: dateString,
-              user_id: "",
-              entities: [],
-              intent: "",
-              updated_at: dateString,
+              // user_id: "",
+              // entities: [],
+              // intent: "",
+              // updated_at: dateString,
             },
           ];
         return state;
@@ -145,9 +145,9 @@ export default function Page() {
         id: dateString,
         created_at: dateString,
         user_id: roomId,
-        entities: [],
-        intent: "",
-        updated_at: dateString,
+        // entities: [],
+        // intent: "",
+        // updated_at: dateString,
       },
     ]);
     socket.emit("send-message", { roomId, message: content });

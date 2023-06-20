@@ -1,4 +1,4 @@
-import GroupTrafficSignForm from "@/components/common/GroupTrafficSignForm";
+import GroupTrafficSignForm from "@/components/form/GroupTrafficSignForm";
 import Paper from "@/components/common/Paper";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Head from "next/head";

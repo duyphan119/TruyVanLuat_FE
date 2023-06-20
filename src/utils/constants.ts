@@ -46,4 +46,3 @@ export const DASHBOARD = {
   SIDEBAR_WIDTH: 286,
   HEADER_HEIGHT: 80,
 };
-export const WEBSITE_TITLE = "Website hỗ trợ truy vấn luật giao thông đường bộ";

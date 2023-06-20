@@ -1,11 +1,11 @@
 import Head from "next/head";
 import React from "react";
 import {
-  WEBSITE_TITLE,
   DASHBOARD,
   DEFAULT_LIMIT,
   PAGINATION_RESPONSE_EMPTY,
   PROTECTED_ROUTES,
+  PUBLIC_ROUTES,
 } from "@/utils/constants";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Paper from "@/components/common/Paper";
@@ -18,6 +18,7 @@ import violationApi from "@/api/violation.api";
 import DataTable from "@/components/common/DataTable";
 import Link from "next/link";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { createQueryString } from "@/utils/helpers";
 
 type Props = {};
 
@@ -28,12 +29,13 @@ const Page = (props: Props) => {
   const p = getNumber("p", 1);
   const limit = getNumber("limit", DEFAULT_LIMIT);
 
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [data, setData] = React.useState<PaginationResponse<Violation>>(
     PAGINATION_RESPONSE_EMPTY
   );
 
   React.useEffect(() => {
+    setLoading(true);
     let isMounted = true;
     violationApi
       .search({ keyword: "", p, limit })
@@ -56,7 +58,7 @@ const Page = (props: Props) => {
   return (
     <React.Fragment>
       <Head>
-        <title>Xử phạt giao thông | {WEBSITE_TITLE}</title>
+        <title>Xử phạt giao thông</title>
       </Head>
       <AuthRedirect>
         <AdminLayout>
@@ -68,6 +70,8 @@ const Page = (props: Props) => {
             }}
           >
             <DataTable
+              loading={loading}
+              onSearch={(keyword: string) => {}}
               cols={[
                 {
                   label: "Nội dung",
@@ -75,12 +79,17 @@ const Page = (props: Props) => {
                   className: "text-left",
                 },
                 {
-                  label: "Luật",
+                  label: "Từ khoá",
+                  key: "keywords",
+                  className: "text-left",
+                },
+                {
+                  label: "Điều khoản",
                   key: "legal",
                   className: "text-left",
                 },
                 {
-                  label: "Hành động",
+                  label: "",
                   key: "actions",
                   render: (model: Violation) => (
                     <div className="flex items-center justify-center gap-2">
@@ -108,7 +117,8 @@ const Page = (props: Props) => {
                 current: p,
                 pageSize: limit,
                 onPageChange: (page) => {
-                  //
+                  const qs = createQueryString({ ...router.query, p: page });
+                  router.push(`${PROTECTED_ROUTES.VIOLATIONS}${qs}`);
                 },
               }}
             />

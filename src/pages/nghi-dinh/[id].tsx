@@ -23,7 +23,7 @@ const Page = ({ vanBan }: Props) => {
         <Container className="py-4">
           <div className="text-center font-bold text-lg">{type}</div>
           <div className="text-center text-lg">{title}</div>
-          <DrawerMenu dieus={dieus || []} />
+          {/* <DrawerMenu dieus={dieus || []} /> */}
           <div className="flex gap-4 my-4 items-stretch">
             <Menu dieus={dieus || []} />
             <div className="right flex-[3] p-2 border border-gray-300 rounded-sm">
