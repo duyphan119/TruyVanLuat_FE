@@ -5,13 +5,13 @@ import VanBanCrawled from "@/types/vanban/VanBanCrawled";
 import VanBanCrawledParams from "@/types/vanban/VanBanCrawledParams";
 
 const api = new API();
-const getAllCrawled = (limit?: number): Promise<VanBanCrawled[]> =>
+const getAllCrawled = (limit?: number): Promise<any[]> =>
   api.get("van-ban", { limit });
-const getBySlug = (slug: string): Promise<VanBanCrawled[]> =>
-  api.get(`van-ban/${slug}`);
-const getAll = (params?: any): Promise<PaginationResponse<VanBanCrawled>> =>
+const getBySlug = (cat: string, slug: string): Promise<any[]> =>
+  api.get(`van-ban/${cat}/${slug}`);
+const getAll = (params?: any): Promise<PaginationResponse<any>> =>
   api.get("van-ban", params);
-const search = (params?: any): Promise<PaginationResponse<VanBanCrawled>> =>
+const search = (params?: any): Promise<PaginationResponse<any>> =>
   api.get("van-ban/search", params);
 
 const vanbanApi = { getAllCrawled, getBySlug, getAll, search };

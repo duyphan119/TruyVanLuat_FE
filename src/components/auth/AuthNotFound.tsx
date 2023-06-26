@@ -22,24 +22,24 @@ const AuthNotFound = ({
     getProfile();
   }, []);
   if (!isFetchedProfile) return <></>;
-  if (requireLogin && isFetchedProfile && !profile)
-    return (
-      <>
-        <NotFound />
-      </>
-    );
-  if (requireNoLogin && isFetchedProfile && profile)
-    return (
-      <>
-        <NotFound />
-      </>
-    );
-  if (requireNoLoginAdmin && isFetchedProfile && profile && profile.is_admin)
-    return (
-      <>
-        <NotFound />
-      </>
-    );
+  // if (requireLogin && isFetchedProfile && !profile)
+  //   return (
+  //     <>
+  //       <NotFound />
+  //     </>
+  //   );
+  // if (requireNoLogin && isFetchedProfile && profile)
+  //   return (
+  //     <>
+  //       <NotFound />
+  //     </>
+  //   );
+  // if (requireNoLoginAdmin && isFetchedProfile && profile && profile.is_admin)
+  //   return (
+  //     <>
+  //       <NotFound />
+  //     </>
+  //   );
   return <>{children}</>;
 };
 

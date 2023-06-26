@@ -10,12 +10,13 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   if (req.method === "GET") {
-    const { slug } = req.query;
+    const { slug, cat } = req.query;
     try {
       let content: string | null = "";
       const mucs: any[] = [];
-      // let url = `https://thuvienphapluat.vn/van-ban/Giao-thong-Van-tai/${slug}`;
-      let url = `https://vanbanphapluat.co/${slug}`;
+      let url = `https://thuvienphapluat.vn/van-ban/${cat}/${slug}`;
+      console.log(url);
+      // let url = `https://vanbanphapluat.co/${slug}`;
       const { data: html } = await axios.get(url);
       // let vanban_code: string = "";
       // let type: string = "";
@@ -64,40 +65,42 @@ export default async function handler(
       //   $(this).removeAttr("onclick");
       //   $(this).removeAttr("onmouseout");
       // });
-      const obj: any = {
-        html: "",
-        href: url,
-        kind: "",
-        code: "",
-        issuingOrganization: "",
-        signer: "",
-      };
-      obj.html = "" + $(".tab-pane hr + div").html();
-      obj.title = $(".breadcrumb .active").text();
+      // const obj: any = {
+      //   html: "",
+      //   href: url,
+      //   kind: "",
+      //   code: "",
+      //   issuingOrganization: "",
+      //   signer: "",
+      // };
+      // obj.html = "" + $(".tab-pane hr + div").html();
+      // obj.title = $(".breadcrumb .active").text();
 
-      $(".tab-pane .row .col-md-4 table tbody tr").each(function () {
-        const key = $(this).find("td:first-child").text();
-        const value = $(this).find("td:last-child").text();
-        if (key.indexOf("Loại văn bản") !== -1) {
-          obj.kind = value;
-        } else if (key.indexOf("Số hiệu") !== -1) {
-          obj.code = value;
-        } else if (key.indexOf("Cơ quan ban hành") !== -1) {
-          obj.issuingOrganization = value;
-        } else if (key.indexOf("Người ký") !== -1) {
-          obj.signer = value;
-        } else if (key.indexOf("Ngày ban hành") !== -1) {
-          obj.effectiveDate = value;
-        } else if (key.indexOf("Lĩnh vực") !== -1) {
-          obj.area = value;
-        } else if (key.indexOf("Tình trạng hiệu lực") !== -1) {
-          obj.status = value;
-        } else if (key.indexOf("Cập nhật") !== -1) {
-          obj.updated = value;
-        }
+      // $(".tab-pane .row .col-md-4 table tbody tr").each(function () {
+      //   const key = $(this).find("td:first-child").text();
+      //   const value = $(this).find("td:last-child").text();
+      //   if (key.indexOf("Loại văn bản") !== -1) {
+      //     obj.kind = value;
+      //   } else if (key.indexOf("Số hiệu") !== -1) {
+      //     obj.code = value;
+      //   } else if (key.indexOf("Cơ quan ban hành") !== -1) {
+      //     obj.issuingOrganization = value;
+      //   } else if (key.indexOf("Người ký") !== -1) {
+      //     obj.signer = value;
+      //   } else if (key.indexOf("Ngày ban hành") !== -1) {
+      //     obj.effectiveDate = value;
+      //   } else if (key.indexOf("Lĩnh vực") !== -1) {
+      //     obj.area = value;
+      //   } else if (key.indexOf("Tình trạng hiệu lực") !== -1) {
+      //     obj.status = value;
+      //   } else if (key.indexOf("Cập nhật") !== -1) {
+      //     obj.updated = value;
+      //   }
+      // });
+      // res.status(200).json(obj);
+      res.status(200).json({
+        html: $(".content1").html(),
       });
-
-      res.status(200).json(obj);
     } catch (error) {
       console.log("Error", error);
       res.status(500).json({ message: "Error" });

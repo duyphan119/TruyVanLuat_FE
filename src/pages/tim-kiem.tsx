@@ -99,17 +99,17 @@ const Search = (props: Props) => {
                   }
                 >
                   {searchData.rows.map((row, index) => {
-                    const toSlug = slugify(row.name, {
-                      replacement: " ",
-                      lower: true,
-                      locale: "vi",
-                    });
-                    const toSlugKeyword = slugify(keyword, {
-                      replacement: " ",
-                      lower: true,
-                      locale: "vi",
-                    });
-                    const i = toSlug.indexOf(toSlugKeyword);
+                    // const toSlug = slugify(row.name, {
+                    //   replacement: " ",
+                    //   lower: true,
+                    //   locale: "vi",
+                    // });
+                    // const toSlugKeyword = slugify(keyword, {
+                    //   replacement: " ",
+                    //   lower: true,
+                    //   locale: "vi",
+                    // });
+                    // const i = toSlug.indexOf(toSlugKeyword);
                     return (
                       <Fragment key={row.id}>
                         <Link
@@ -125,11 +125,12 @@ const Search = (props: Props) => {
                           <p className="three-dot three-dot-3 text-sm font-medium group-hover:text-[var(--mainColor)]">
                             {/* {row.content} */}
                             {/* {row.legal.point.name} */}
-                            {row.name.substring(0, i)}
+                            {/* {row.name.substring(0, i)}
                             <span className="bg-yellow-400">
                               {row.name.substring(i, i + keyword.length)}
                             </span>
-                            {row.name.substring(i + keyword.length)}
+                            {row.name.substring(i + keyword.length)} */}
+                            {row.name}
                           </p>
                           <p className="three-dot three-dot-2 mt-1 text-[12px] text-rose-500">
                             {/* {row.punishment} */}

@@ -44,7 +44,7 @@ export default async function handler(
           const href = aEl.attr("href");
           let slug = "";
           if (href) {
-            const splitHref = href.split("/");
+            const splitHref = href.split("/van-ban/");
             if (splitHref.length > 0) {
               slug = splitHref[splitHref.length - 1];
             }

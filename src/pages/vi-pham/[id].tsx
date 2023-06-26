@@ -32,15 +32,15 @@ const Page = (props: Props) => {
     if (id)
       Promise.allSettled([
         violationApi.getById(`${id}`),
-        // violationApi.getRelated(`${id}`),
+        violationApi.getRelated(`${id}`),
       ])
-        .then(([res1]) => {
+        .then(([res1, res2]) => {
           if (res1.status === "fulfilled") {
             setData(res1.value);
           }
-          // if (res2.status === "fulfilled") {
-          //   setRelated(res2.value);
-          // }
+          if (res2.status === "fulfilled") {
+            setRelated(res2.value);
+          }
         })
         .finally(() => {
           setLoading(false);

@@ -462,7 +462,7 @@ const Page = ({ data }: Props) => {
                     >
                       <div className="col-span-8">
                         <Link
-                          href={`${PUBLIC_ROUTES.VANBAN}${row.slug}`}
+                          href={`${PUBLIC_ROUTES.VANBAN}/${row.slug}`}
                           className="group-hover:text-[var(--mainColor)] font-medium three-dot three-dot-2"
                           title={row.title}
                         >
