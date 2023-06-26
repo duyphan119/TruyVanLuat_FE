@@ -9,9 +9,8 @@ const getAllCrawled = (limit?: number): Promise<VanBanCrawled[]> =>
   api.get("van-ban", { limit });
 const getBySlug = (slug: string): Promise<VanBanCrawled[]> =>
   api.get(`van-ban/${slug}`);
-const getAll = (
-  params?: VanBanCrawledParams
-): Promise<PaginationResponse<VanBanCrawled>> => api.get("van-ban", params);
+const getAll = (params?: any): Promise<PaginationResponse<VanBanCrawled>> =>
+  api.get("van-ban", params);
 const search = (params?: any): Promise<PaginationResponse<VanBanCrawled>> =>
   api.get("van-ban/search", params);
 

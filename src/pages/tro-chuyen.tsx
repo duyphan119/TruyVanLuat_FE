@@ -34,7 +34,7 @@ const recommendList: RecommendQuestion[] = [
   },
   {
     id: 5,
-    content: "Các vi phạm về đèn đỏ đối với xe thô sơ là gì",
+    content: "Các vi phạm về đỗ xe đối với xe ô tô là gì",
   },
   {
     id: 6,
@@ -60,13 +60,14 @@ export default function Page() {
   const chatRef = useRef<HTMLDivElement | null>(null);
 
   const [socket, setSocket] = useState<any | null>(null);
-  const { profile } = useUserStore();
+  const { profile, isFetchedProfile } = useUserStore();
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [fetchedMessages, setFetchedMessages] = useState<boolean>(false);
+  const [messages, setMessages] = useState<any[]>([]);
   const [isChatEmpty, setIsChatEmpty] = useState<boolean>(false);
   const [roomId, setRoomId] = useState("");
 
-  console.log(roomId);
+  console.log(roomId, profile, isFetchedProfile);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,19 +76,20 @@ export default function Page() {
         setMessages(data);
         setIsChatEmpty(data.length === 0);
       } catch (error) {}
+      setFetchedMessages(true);
     };
 
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (roomId === "") {
+    if (isFetchedProfile && roomId === "") {
       const id = profile
         ? profile.id
         : "" + (Math.floor(Math.random() * 10000) + new Date().getTime());
       setRoomId(id);
     }
-  }, [profile, roomId]);
+  }, [profile, roomId, isFetchedProfile]);
 
   useEffect(() => {
     if (socket && roomId !== "") {
@@ -98,20 +100,21 @@ export default function Page() {
   useEffect(() => {
     const s = io(`${process.env.LAWS_API}`);
 
-    s.on("bot-answer", (message: string) => {
-      const dateString = new Date().toISOString();
+    s.on("bot-answer", (obj: any) => {
+      console.log("Nhan msg", obj);
       setMessages((state) => {
         if (state.length > 0 && state[state.length - 1].user_id !== "")
           return [
             ...state,
             {
-              content: message,
-              id: dateString,
-              created_at: dateString,
-              // user_id: "",
-              // entities: [],
-              // intent: "",
-              // updated_at: dateString,
+              content: obj.content,
+              id: obj.id,
+              created_at: obj.created_at,
+              updated_at: obj.updated_at,
+              user_id: obj.user_id,
+              entities: obj.entities,
+              intent: obj.intent,
+              is_sender: obj.is_sender,
             },
           ];
         return state;
@@ -145,6 +148,7 @@ export default function Page() {
         id: dateString,
         created_at: dateString,
         user_id: roomId,
+        is_sender: true,
         // entities: [],
         // intent: "",
         // updated_at: dateString,
@@ -175,6 +179,16 @@ export default function Page() {
 
     return () => clearTimeout(timerId);
   }, []);
+
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      const { scrollHeight, clientHeight } = chatRef.current;
+      chatRef.current.scrollTop = scrollHeight - clientHeight;
+      console.log(scrollHeight - clientHeight);
+    }
+  });
 
   return (
     <Fragment>

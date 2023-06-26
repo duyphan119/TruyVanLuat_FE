@@ -5,6 +5,7 @@ import Container from "@/components/common/Container";
 import Flex from "@/components/common/Flex";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/components/layouts/MainLayout";
+import API from "@/config/api";
 import useQueryString from "@/hooks/useQueryString";
 import News from "@/types/news/News";
 import IsNextResponse from "@/types/response/IsNextResponse";
@@ -20,16 +21,19 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
+import slugify from "slugify";
+import { parse } from "rss-to-json";
 
 type Props = {
   data: IsNextResponse<News>;
+  rss: any;
 };
 
-const Page = ({ data }: Props) => {
+const Page = ({ data, rss }: Props) => {
   const router = useRouter();
 
   const { getString } = useQueryString();
@@ -61,6 +65,15 @@ const Page = ({ data }: Props) => {
     router.push(`${PUBLIC_ROUTES.NEWS}${qs}`);
     fetchNewsData(values, true);
   };
+  console.log(rss);
+
+  // useEffect(() => {
+  //   parse("https://luatvietnam.vn/rss/news-863.rss")
+  //     .then((rss) => {
+  //       console.log("res", JSON.stringify(rss, null, 3));
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   return (
     <Fragment>
@@ -97,6 +110,11 @@ const Page = ({ data }: Props) => {
                   <FaSearch />
                 </span>
               </form>
+              {newsData.count ? (
+                <div className="my-2">
+                  Tìm thấy <b>{newsData.count}</b> kết quả
+                </div>
+              ) : null}
               <InfiniteScroll
                 dataLength={newsData.rows.length}
                 next={() => {
@@ -112,6 +130,19 @@ const Page = ({ data }: Props) => {
                 }
               >
                 {newsData.rows.map((row, index) => {
+                  if (!row.title) return <Fragment key={index}></Fragment>;
+                  const toSlug = slugify(row.title, {
+                    replacement: " ",
+                    lower: true,
+                    locale: "vi",
+                  });
+                  const toSlugKeyword = slugify(q, {
+                    replacement: " ",
+                    lower: true,
+                    locale: "vi",
+                  });
+                  const i = toSlug.indexOf(toSlugKeyword);
+                  console.log(toSlug, toSlugKeyword, i, toSlug[i]);
                   return (
                     <Fragment key={row.slug}>
                       {index > 0 ? <hr /> : null}
@@ -122,7 +153,7 @@ const Page = ({ data }: Props) => {
                           title={row.title}
                         >
                           <Flex className="!items-start">
-                            <div className="relative w-[200px] pb-[10%]">
+                            {/* <div className="relative w-[200px] pb-[10%]">
                               <Image
                                 alt="thumbnail news"
                                 src={row.thumbnail || PLACEHOLDER_THUMBNAIL}
@@ -130,11 +161,26 @@ const Page = ({ data }: Props) => {
                                 sizes="(max-width: 500px) 100vw"
                                 fill={true}
                               />
-                            </div>
-                            <div className="w-2/3">
+                            </div> */}
+                            <div className="">
                               <p className="font-medium group-hover:text-[var(--mainColor)]">
-                                {row.title}
+                                {i >= 0 ? (
+                                  <>
+                                    {row.title.substring(0, i)}
+                                    <span className="bg-yellow-400">
+                                      {row.title.substring(i, i + q.length)}
+                                    </span>
+                                    {row.title.substring(i + q.length)}
+                                  </>
+                                ) : (
+                                  row.title
+                                )}
                               </p>
+                              {row.createdAt ? (
+                                <p className="text-neutral-500 text-sm">
+                                  {row.createdAt}
+                                </p>
+                              ) : null}
                               <p className="text-sm text-gray-500">
                                 {row.description}
                               </p>

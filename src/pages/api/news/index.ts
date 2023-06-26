@@ -10,10 +10,12 @@ export default async function handler(
     try {
       const { p, q } = req.query;
 
-      const url = `https://vietnamnet.vn/tim-kiem-p${
-        p ? +p - 1 : 0
-      }?bydaterang=all&cate=00000P&newstype=all&od=2&q=${q || ""}`;
-
+      // const url = `https://vietnamnet.vn/tim-kiem-p${
+      //   p ? +p - 1 : 0
+      // }?bydaterang=all&cate=00000P&newstype=all&od=2&q=${q || ""}`;
+      const url = `https://luatvietnam.vn/tim-kiem-tin-tuc.html?SearchOptions=1&PublicDate=&IsSearchExact=0&tagId=0&keywords=${
+        q || ""
+      }&SearchByTime=0&FieldId=0&categoryId=863&page=${p || 1}&pSize=20`;
       console.log(url);
 
       const { data: html } = await axios.get(url);
@@ -21,38 +23,40 @@ export default async function handler(
 
       const rows: any[] = [];
 
-      $(".horizontalPost").each(function () {
-        if (
-          $(this).find(".horizontalPost__main-cate a").text().toLowerCase() !==
-          "video"
-        ) {
-          const aEl = $(this).find(".horizontalPost__avt a");
-          const href = aEl.attr("href");
-          const title = aEl.attr("title");
+      $(".postlist").each(function () {
+        // if (
+        //   $(this).find(".horizontalPost__main-cate a").text().toLowerCase() !==
+        //   "video"
+        // ) {
+        const aEl = $(this).find(".post_news_title");
+        const href = aEl.attr("href");
+        const title = aEl.attr("title")?.trim();
 
-          const thumbnail = $(this)
-            .find(".horizontalPost__avt a img")
-            .attr("src");
-          const description = $(this)
-            .find(".horizontalPost__main-desc p")
-            .text();
-          const row = {
-            slug: "",
-            title,
-            thumbnail,
-            description,
-          };
-          if (href) {
-            const splitHref = href.split("/");
-            row.slug = splitHref[splitHref.length - 1];
-          }
-          rows.push(row);
+        // const thumbnail = $(this)
+        //   .find(".horizontalPost__avt a img")
+        //   .attr("src");
+        const description = $(this).find(".post-sapo").text();
+        const row = {
+          slug: "",
+          title,
+          thumbnail: "",
+          description,
+          createdAt: $(this).find(".post-time2").text(),
+        };
+        if (href) {
+          const splitHref = href.split("/");
+          row.slug = splitHref[splitHref.length - 1];
         }
+        rows.push(row);
+        // }
       });
+      const count = +$(".searchleft strong").text().split(" ")[0];
 
       res.status(200).json({
         rows,
-        isNext: $(".pagination-next").attr("class") ? true : false,
+        // isNext: $(".pagination-next").attr("class") ? true : false,
+        isNext: Math.ceil(count / 20) > +(p || 1),
+        count,
       });
 
       // const limit = req.query.limit || 5;

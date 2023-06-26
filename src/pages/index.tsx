@@ -5,8 +5,11 @@ import SectionHomeSearch from "@/components/SectionHomeSearch";
 import SectionHomeTopics from "@/components/SectionHomeTopics";
 import SectionHomeVanBan from "@/components/SectionHomeVanBan";
 import Infringe from "@/types/infringe/Infringe";
+import { IS_NEXT_RESPONSE_EMPTY } from "@/utils/constants";
+import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { Fragment } from "react";
+import { parse } from "rss-to-json";
 
 type Result = {
   rows: Infringe[];
@@ -14,7 +17,7 @@ type Result = {
   total_pages: number;
 };
 
-export default function Home() {
+export default function Home({ newsData }: any) {
   // const router = useRouter();
 
   // const { getString } = useQueryString();
@@ -69,9 +72,26 @@ export default function Home() {
           <SectionHomeSearch />
           <SectionHomeTopics />
           {/* <SectionHomeVanBan /> */}
-          <SectionHomeNews />
+          <SectionHomeNews newsData={newsData} />
         </MainLayout>
       </AuthNotFound>
     </Fragment>
   );
 }
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  try {
+    var rss = await parse("https://luatvietnam.vn/rss/news-863.rss");
+
+    return {
+      props: { newsData: JSON.stringify(rss) },
+    };
+  } catch (error) {}
+  return {
+    props: {
+      data: IS_NEXT_RESPONSE_EMPTY,
+    },
+  };
+};

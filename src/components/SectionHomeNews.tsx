@@ -5,18 +5,74 @@ import {
   PLACEHOLDER_THUMBNAIL,
   PUBLIC_ROUTES,
 } from "@/utils/constants";
+import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, Fragment } from "react";
 import Button from "./common/Button";
 import Container from "./common/Container";
 
-type Props = {};
+type NewsItem = {
+  title: string;
+  description: string;
+  link: string;
+  published: number;
+  created: number;
+  category: string;
+  enclosures: {
+    url: string;
+    width: string;
+    height: string;
+  }[];
+  media: {
+    thumbnail: {
+      url: string;
+      width: string;
+      height: string;
+    };
+  };
+};
 
-const SectionHomeNews = (props: Props) => {
+type NewsData = {
+  title: string;
+  description: string;
+  link: string;
+  image: string;
+  category: any[];
+  items: {
+    title: string;
+    description: string;
+    link: string;
+    published: number;
+    created: number;
+    category: string;
+    enclosures: {
+      url: string;
+      width: string;
+      height: string;
+    }[];
+    media: {
+      thumbnail: {
+        url: string;
+        width: string;
+        height: string;
+      };
+    };
+  }[];
+};
+
+type Props = {
+  newsData: string;
+};
+
+const SectionHomeNews = ({ newsData }: Props) => {
   const [newsList, setNewsList] = useState<News[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFetched, setIsFetched] = useState<boolean>(false);
+
+  const data: NewsData = JSON.parse(newsData);
+
+  console.log(JSON.parse(newsData));
 
   useEffect(() => {
     let isMounted = true;
@@ -49,9 +105,9 @@ const SectionHomeNews = (props: Props) => {
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-3 lg:min-h-[302.15px] min-h-[620.2px]">
           {new Array(HOME_PAGE.LIMIT_NEWS).fill("").map((_, index) => {
             let item = null;
-            if (newsList[index]) item = newsList[index];
+            if (data.items[index]) item = data.items[index];
 
-            const Content = ({ item }: any) => {
+            const Content = ({ item }: { item: NewsItem | null }) => {
               return (
                 <>
                   <div
@@ -62,7 +118,7 @@ const SectionHomeNews = (props: Props) => {
                     {item ? (
                       <Image
                         alt="thumbnail"
-                        src={item.thumbnail || PLACEHOLDER_THUMBNAIL}
+                        src={item.media.thumbnail.url || PLACEHOLDER_THUMBNAIL}
                         fill={true}
                         priority={true}
                         sizes={"(max-width: 400px) 100vw"}
@@ -79,16 +135,31 @@ const SectionHomeNews = (props: Props) => {
                           ? " group-hover:text-[var(--mainColor)]"
                           : " bg-gray-300 text-gray-300 rounded-md"
                       }`}
-                    >
-                      {item
-                        ? item.title
-                        : `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero
+                      dangerouslySetInnerHTML={{
+                        __html: item
+                          ? item.title
+                          : `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero
                 cupiditate facere placeat voluptatem amet quo quae ipsum
                 molestiae minima fugit eveniet sint quisquam id, quas ab, veniam
-                inventore? Repellendus, repudiandae.`}
-                    </p>
+                inventore? Repellendus, repudiandae.`,
+                      }}
+                    ></p>
                   </div>
                   <div
+                    className="text-gray-400 text-sm"
+                    title={item ? item.title : ""}
+                  >
+                    <p
+                      className={`three-dot three-dot-2 font-semibold mt-1${
+                        item ? "" : " bg-gray-300 text-gray-300 rounded-md"
+                      }`}
+                    >
+                      {item
+                        ? moment(item.published).format("DD/MM/YYYY HH:mm")
+                        : moment(new Date()).format()}
+                    </p>
+                  </div>
+                  {/* <div
                     className="text-gray-400 text-sm"
                     title={item ? item.title : ""}
                   >
@@ -104,17 +175,24 @@ const SectionHomeNews = (props: Props) => {
                 molestiae minima fugit eveniet sint quisquam id, quas ab, veniam
                 inventore? Repellendus, repudiandae.`}
                     </p>
-                  </div>
+                  </div> */}
                 </>
               );
             };
+
+            let link = "";
+
+            if (item) {
+              const splitLink = item.link.split("/");
+              link = splitLink[splitLink.length - 1];
+            }
 
             return (
               <article className="news" key={index}>
                 {item ? (
                   <>
                     <Link
-                      href={`${PUBLIC_ROUTES.NEWS}/${item.slug}`}
+                      href={`${PUBLIC_ROUTES.NEWS}/${link}`}
                       className="block group"
                       title={item.title}
                     >
@@ -123,7 +201,7 @@ const SectionHomeNews = (props: Props) => {
                   </>
                 ) : (
                   <div>
-                    <Content />
+                    <Content item={null} />
                   </div>
                 )}
               </article>

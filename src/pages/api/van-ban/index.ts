@@ -14,7 +14,7 @@ export default async function handler(
     try {
       const date = new Date();
 
-      const { limit, p } = req.query;
+      const { limit, p, type, signer, org, kwd } = req.query;
       const pageSize = limit ? +limit : 20;
       const page = p ? +p : 1;
       const day = date.getDate();
@@ -24,7 +24,11 @@ export default async function handler(
       const dayStr = (day < 10 ? "0" : "") + day;
       const monthStr = (month < 10 ? "0" : "") + month;
 
-      const url = `https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=giao%20th%C3%B4ng%20%C4%91%C6%B0%E1%BB%9Dng%20b%E1%BB%99&area=1&type=0&status=0&lan=1&org=0&signer=0&match=False&sort=2&bdate=22/05/1943&&edate=${dayStr}/${monthStr}/${year}&page=${page}`;
+      const url = `https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=${
+        kwd || ""
+      }&area=1&type=${type || 0}&status=0&lan=1&org=${org || 0}&signer=${
+        signer || 0
+      }&match=False&sort=2&bdate=22/05/1943&&edate=${dayStr}/${monthStr}/${year}&page=${page}`;
 
       console.log(url);
 
@@ -46,6 +50,7 @@ export default async function handler(
             }
           }
           let issue = "";
+          let updated = "";
           $(this)
             .find(".right-col p")
             .each(function () {
@@ -54,10 +59,14 @@ export default async function handler(
                 const splitText = text.split(" ");
                 issue = splitText[splitText.length - 1];
               }
+              if (text.indexOf("Cập nhật") !== -1) {
+                const splitText = text.split(" ");
+                updated = splitText[splitText.length - 1];
+              }
             });
-          if ($(this).find(".nqContent").text() !== "") {
-            vanbans.push({ title, slug, issue });
-          }
+          // if ($(this).find(".nqContent").text() !== "") {
+          vanbans.push({ title, slug, issue, updated });
+          // }
         }
       });
       const count = +$("#lbTotal").text();

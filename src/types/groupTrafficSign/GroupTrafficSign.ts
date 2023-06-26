@@ -4,7 +4,6 @@ type GroupTrafficSign = {
   id: string;
   effect: string;
   name: string;
-  description: string;
   children?: Array<TrafficSign>;
 };
 

@@ -10,10 +10,10 @@ export const generateHrefId = (detail: string) => {
     return `diem_${split[5]}_${split[3]}_${split[1] === "đ" ? "dd" : split[1]}`;
   }
   if (split[0] === "Khoản") {
-    return `khoan_${split[3]}_${split[1] === "đ" ? "dd" : split[1]}`;
+    return `khoan_${split[3]}_${split[1]}`;
   }
   if (split[0] === "Điều") {
-    return `dieu_${split[1] === "đ" ? "dd" : split[1]}`;
+    return `dieu_${split[1]}`;
   }
 
   return "";

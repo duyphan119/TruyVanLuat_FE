@@ -21,7 +21,6 @@ const useUserStore = create<IUserStore>((set) => ({
     try {
       data = await authApi.getProfile();
     } catch (error) {}
-
     return set({ profile: data, isFetchedProfile: true });
   },
   logout: async () => {

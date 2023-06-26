@@ -21,17 +21,16 @@ const updateOne = (
   body: Partial<Violation>
 ): Promise<{ is_success: boolean }> => api.patch(`violations/${id}`, body);
 
-const getById = (id: string): Promise<Violation> => api.get(`violations/${id}`);
+const getById = (id: string): Promise<any> => api.get(`violations/${id}`);
 
-const getRelated = (id: string): Promise<Violation[]> =>
+const getRelated = (id: string): Promise<any[]> =>
   api.get(`violations/related/${id}`);
 
 const search = (params: {
   keyword: string;
   p?: number;
   limit?: number;
-}): Promise<PaginationResponse<Violation>> =>
-  api.get(`violations/search`, params);
+}): Promise<PaginationResponse<any>> => api.get(`violations/search`, params);
 
 const violationApi = {
   getById,

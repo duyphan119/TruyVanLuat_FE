@@ -3,7 +3,6 @@ type TrafficSign = {
   code: string;
   name: string;
   image: string;
-  description: string;
   groupTrafficSignId: string;
 };
 

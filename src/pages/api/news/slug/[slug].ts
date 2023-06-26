@@ -9,16 +9,20 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const slug = req.query.slug;
-      const url = `https://vietnamnet.vn/${slug}`;
+      // const url = `https://vietnamnet.vn/${slug}`;
+      const url = `https://luatvietnam.vn/${slug}`;
       // const baseUrl = "https://vnexpress.net";
       // const url = `${baseUrl}/${slug}`;
       const { data: html } = await axios.get(url);
       const $ = cheerio.load(html);
 
-      const title = $(".content-detail-title").text();
-      const createdAt = $(".bread-crumb-detail__time").text();
+      // const title = $(".content-detail-title").text();
+      const title = $(".the-article-title").text();
+      // const createdAt = $(".bread-crumb-detail__time").text();
+      const createdAt = $(".date-publish").text();
       const description = $(".content-detail-sapo").text();
-      const content = $("#maincontent").html();
+      $(".google-ads").remove();
+      const content = $("#newsIndex").html();
       // const paragraphs: any[] = [];
       // $(".sidebar-1 .fck_detail")
       //   .find("figure")

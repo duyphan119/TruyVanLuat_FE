@@ -16,7 +16,7 @@ import { AiFillCaretRight } from "react-icons/ai";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 
 type Props = {
-  data: Violation;
+  // data: Violation;
 };
 
 const Page = (props: Props) => {
@@ -24,23 +24,23 @@ const Page = (props: Props) => {
   const { id } = query;
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<Violation | null>(null);
-  const [related, setRelated] = useState<Violation[]>([]);
+  const [data, setData] = useState<any | null>(null);
+  const [related, setRelated] = useState<any[]>([]);
 
   useEffect(() => {
     setLoading(true);
     if (id)
       Promise.allSettled([
         violationApi.getById(`${id}`),
-        violationApi.getRelated(`${id}`),
+        // violationApi.getRelated(`${id}`),
       ])
-        .then(([res1, res2]) => {
+        .then(([res1]) => {
           if (res1.status === "fulfilled") {
             setData(res1.value);
           }
-          if (res2.status === "fulfilled") {
-            setRelated(res2.value);
-          }
+          // if (res2.status === "fulfilled") {
+          //   setRelated(res2.value);
+          // }
         })
         .finally(() => {
           setLoading(false);
@@ -55,6 +55,7 @@ const Page = (props: Props) => {
         </Fragment>
       );
   } else {
+    console.log(data);
     return (
       <Fragment>
         <Head>
@@ -81,21 +82,79 @@ const Page = (props: Props) => {
               <p className="mt-1 text-rose-500">{data.fine}</p>
               <p className="mt-1">
                 <Link
-                  href={`${PUBLIC_ROUTES.NGHI_DINH}#${data.id}`}
+                  href={`${PUBLIC_ROUTES.NGHI_DINH}#${generateHrefId(
+                    data.legal
+                  )}`}
                   className="text-blue-500 hover:underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open(
-                      window.location.origin +
-                        PUBLIC_ROUTES.NGHI_DINH +
-                        "#" +
-                        generateHrefId(data.legal)
-                    );
-                  }}
+                  target="_blank"
                 >
                   Xem chi tiết {data.legal}
                 </Link>
               </p>
+              {data.addition_punishment ? (
+                <div>
+                  <div className="h-[1px] my-3 w-full bg-neutral-300"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <MdOutlineSubdirectoryArrowRight />
+                    Phạt bổ sung:
+                  </p>
+                  <ul>
+                    {data.addition_punishment
+                      .split(" ; ")
+                      .map((text: string) => {
+                        return <li key={text}>{text}</li>;
+                      })}
+                  </ul>
+                  <ul>
+                    {data.addition_punishment_legal
+                      .split(" và ")
+                      .map((text: string) => {
+                        const hrefId = generateHrefId(text);
+                        return (
+                          <li key={text}>
+                            <Link
+                              href={`${PUBLIC_ROUTES.NGHI_DINH}#${hrefId}`}
+                              className="text-blue-500 hover:underline"
+                              target="_blank"
+                            >
+                              Xem chi tiết {text}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </div>
+              ) : null}
+              {data.solution ? (
+                <div>
+                  <div className="h-[1px] my-3 w-full bg-neutral-300"></div>
+                  <p className="flex items-center gap-2 font-bold">
+                    <MdOutlineSubdirectoryArrowRight />
+                    Biện pháp khắc phục:
+                  </p>
+                  <ul>
+                    {data.solution.split(" ; ").map((text: string) => {
+                      return <li key={text}>{text}</li>;
+                    })}
+                  </ul>
+                  <ul>
+                    {data.solution_legal.split(" và ").map((text: string) => {
+                      const hrefId = generateHrefId(text);
+                      return (
+                        <li key={text}>
+                          <Link
+                            href={`${PUBLIC_ROUTES.NGHI_DINH}#${hrefId}`}
+                            className="text-blue-500 hover:underline"
+                            target="_blank"
+                          >
+                            Xem chi tiết {text}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
               {related.length > 0 ? (
                 <Fragment>
                   <div className="h-[1px] my-3 w-full bg-neutral-300"></div>

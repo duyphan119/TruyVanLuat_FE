@@ -1,4 +1,5 @@
 import violationApi from "@/api/violation.api";
+import API from "@/config/api";
 import useComponentVisible from "@/hooks/useComponentVisible";
 import useQueryString from "@/hooks/useQueryString";
 import PaginationResponse from "@/types/response/PaginationResponse";
@@ -35,7 +36,7 @@ const SectionHomeSearch = (props: Props) => {
   const [keyword, setKeyword] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  const [searchData, setSearchData] = useState<PaginationResponse<Violation>>(
+  const [searchData, setSearchData] = useState<PaginationResponse<any>>(
     PAGINATION_RESPONSE_EMPTY
   );
 
@@ -43,6 +44,11 @@ const SectionHomeSearch = (props: Props) => {
     try {
       if (keyword === "") setSearchData(PAGINATION_RESPONSE_EMPTY);
       else {
+        // const api = new API();
+        // const data = await api.get("violation", {
+        //   q: keyword,
+        //   p: 1,
+        // });
         const data = await violationApi.search({
           keyword,
           p: 1,

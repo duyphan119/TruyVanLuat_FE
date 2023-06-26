@@ -1,5 +1,6 @@
 import AuthNotFound from "@/components/auth/AuthNotFound";
 import AuthForm from "@/components/form/AuthForm";
+import MainLayout from "@/components/layouts/MainLayout";
 import Head from "next/head";
 import React from "react";
 
@@ -12,9 +13,11 @@ const Page = (props: Props) => {
         <title>Đăng ký</title>
       </Head>
       <AuthNotFound requireNoLogin={true}>
-        <main className="w-screen h-screen flex items-center justify-center">
-          <AuthForm isRegisterForm={true} />
-        </main>
+        <MainLayout hideFooter>
+          <div className="mt-40 flex items-center justify-center">
+            <AuthForm isRegisterForm={true} />
+          </div>
+        </MainLayout>
       </AuthNotFound>
     </React.Fragment>
   );

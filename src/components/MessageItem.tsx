@@ -5,7 +5,7 @@ import Message from "@/types/message/Message";
 import useUserStore from "@/zustand/userStore";
 
 type Props = {
-  message: Message;
+  message: any;
 };
 
 const MessageItem = ({ message }: Props) => {
@@ -14,19 +14,19 @@ const MessageItem = ({ message }: Props) => {
     <div className="">
       <div
         className={`flex gap-2 ${
-          message.user_id ? "ml-auto text-right flex-row-reverse" : ""
+          message.is_sender ? "ml-auto text-right flex-row-reverse" : ""
         }`}
       >
         <div
           className=""
           title={
-            message.user_id ? (profile ? profile.full_name : "User") : "Bot"
+            message.is_sender ? (profile ? profile.full_name : "User") : "Bot"
           }
         >
           <Image
             alt="avatar"
             src={`/images/${
-              message.user_id ? "placeholder.jpg" : "bot-icon.png"
+              message.is_sender ? "placeholder.jpg" : "bot-icon.png"
             }`}
             width={40}
             height={40}
